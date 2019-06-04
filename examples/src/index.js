@@ -1,7 +1,7 @@
 import React from 'react';
 import { render} from 'react-dom';
-import MyComponent from '../../src';
+import Sudoku from '../../src';
 const App = () => (
-    <MyComponent />
+    <Sudoku />
 );
 render(<App />, document.getElementById("root"));
