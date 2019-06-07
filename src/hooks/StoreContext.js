@@ -1,14 +1,15 @@
 import React, { createContext, useReducer, useEffect } from "react";
-import { reducer, initialState } from "./reducers";
 import { useActions } from "./actions";
+import reducers from './reducers';
+import initialState from './initial_state'
 
 const StoreContext = createContext(initialState);
 
 const StoreProvider = ({ children }) => {
     // Set up reducer with useReducer and our defined reducer, initialState from reducers.js
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducers, initialState);
     // Create an object of all our actions, handling special cases where a simple dispatch is too primitive
-    const actions = useActions(state, dispatch);
+    const actions = useActions(state, dispatch);   
 
     // Log new state
     useEffect(

@@ -1,0 +1,59 @@
+.sudoku-board {
+    border: 3px solid black;
+    margin: 5px auto;
+    height: 45vw;
+    width: 45vw;
+    min-height: 70vmin;
+    min-width: 70vmin;
+    max-width: 70vmin;
+    max-height: 70vmin;
+    border-collapse: collapse;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    text-align: center;
+}
+
+.sudoku-cell {
+    border: 1px solid black;
+    margin: 0;
+    height: calc(100%/9);
+    width: calc(100%/9);
+}
+
+.sudoku-board .sudoku-row:nth-child(3n) {
+    border-bottom: 3px solid black;
+}
+
+.sudoku-board .sudoku-cell:nth-child(3n) {
+    border-right: 3px solid black;
+}
+
+
+
+
+.candidates-grid {
+    height: 100%;
+    width: 100%;
+    border-collapse: collapse   
+}
+
+.candidates-grid td {
+    font-size: 60%;
+    font-weight: bold;
+    border: 0 0 0 0;
+    height: calc(100%/9);
+    width: calc(100%/9);
+}
+
+.candidates-grid tr {
+    border: 0 0 0 0;
+}
+
+
+@media (max-width: 500px) {
+    .sudoku-board {
+        min-height: 100vw;
+        min-width: 100vw;
+    }
+
+
+}

@@ -1,26 +1,10 @@
-const initialState = {
-    test: 1
-};
+import combineReducers from "./combineReducer";
+import test_reducer from './reducers/test_reducer';
+import test2_reducer from './reducers/test2_reducer';
+import board_reducer from './reducers/board_reducer';
 
-const types = {
-    INCREMENT_TEST: "INCREMENT_TEST",
-    DECREMENT_TEST: "DECREMENT_TEST"
-};
-
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case types.INCREMENT_TEST:
-            return {
-                ...state,
-                test: state.test + action.payload
-            };
-        case types.DECREMENT_TEST:
-            return {
-                ...state,
-                test: state.test - action.payload
-            };
-        default: throw new Error("Unexpected action");
-    }
-}
-
-export { initialState, types, reducer };
+export default combineReducers({
+    test_reducer, 
+    test2_reducer,
+    board_reducer
+});

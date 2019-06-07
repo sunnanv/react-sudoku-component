@@ -1,0 +1,51 @@
+.controll-button-container {
+    margin-top: 5px;
+    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 45vw;
+    min-width: 500px;
+    max-width: 500px;
+}
+
+.open {
+    animation-name: slideDown;
+    -webkit-animation-name: slideDown;
+
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+}
+
+@keyframes slideDown {
+    from {
+        clip-path: polygon(40% 0, 60% 0, 60% 10%, 40% 10%);
+    } to {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+}
+
+@-webkit-keyframes slideDown {
+	from {
+        -webkit-clip-path: polygon(40% 0, 60% 0, 60% 10%, 40% 10%);
+    } to {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+}
+
+.controll-button {
+    border: 2px solid red;
+    background: none;
+    height: 5vh;
+    margin: 2px 2px;
+    outline: none;
+}
+
+.controll-button:active {
+    background: red;
+}
+
+@media (max-width: 500px) {
+    .controll-button-container {
+        min-width: 100vw;
+    }
+}

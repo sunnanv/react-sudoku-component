@@ -1,0 +1,25 @@
+.button-container {
+    width: 45vw;
+    min-width: 500px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.difficulty-button {
+    width: 30%;
+    height: 40px;
+    margin: 0 1.5%;
+    background: none;
+    border: 5px solid #00bccc;
+    outline: none;
+}
+
+.difficulty-button-active {
+    background: #00bccc;
+}
+
+@media (max-width: 500px) {
+    .button-container {
+        min-width: 100vw;
+    }
+}

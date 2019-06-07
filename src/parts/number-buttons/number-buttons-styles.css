@@ -1,0 +1,23 @@
+.number-container {
+    max-height: 50px;
+    min-height: 50px;
+    height: 4.5vw;
+    width: 45vw;
+    min-width: 500px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.number-button {
+    height: 100%;
+    width: calc(100%/11);
+    background: none;
+    border: 1px solid gray;
+}
+
+@media (max-width: 500px) {
+    .number-container {
+        min-width: 100vw;
+        min-height: 10vw;
+    }
+}
+
