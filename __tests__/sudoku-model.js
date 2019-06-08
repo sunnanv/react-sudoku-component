@@ -1,4 +1,4 @@
-import Sudoku from '../parts/sudoku/components/model/sudoku'
+import Sudoku from '../src/models/sudoku'
 
 
 test("Create new sudoku", () => {

@@ -1,4 +1,4 @@
-import { SudokuUtils } from "../parts/sudoku/utils/utils";
+import * as SudokuUtils from '../src/utils/sudoku_utils'
 
 const difficulties = [{difficulty: 'easy', nbrOfGiven: 37}, 
                       {difficulty: 'medium', nbrOfGiven: 29}, 
@@ -9,15 +9,15 @@ for(let difficulty of difficulties) {
         for(let i = 0; i<2; ++i) {
             describe(`Test number ${i}`, () => {
                 let generated;
-                beforeAll(async () => {
-                    generated = await SudokuUtils.generateSudoku(difficulty.difficulty);
+                beforeAll( () => {
+                    generated = SudokuUtils.generateSudoku(difficulty.difficulty);
                 })
                 it('has a valid solution', () => {
                     expect(SudokuUtils.validate_sudoku(generated.solution).length).toBe(0);
                     expect(generated.solution.isFull());
                 })
-                it('is solvable', async () => {
-                    let solved = await SudokuUtils.solve(generated.sudoku.copy())
+                it('is solvable', () => {
+                    let solved = SudokuUtils.solve(generated.sudoku.copy())
                     expect(solved).toBe(true)
                 });
                 it('has numbers from solution in sudoku', () => {
@@ -34,9 +34,9 @@ for(let difficulty of difficulties) {
                     });
                     expect(count).toBe(difficulty.nbrOfGiven)
                 })
-                it('is solvable', async () => {
+                it('is solvable', () => {
                     let sudoku = generated.sudoku.copy();
-                    let solved = await SudokuUtils.solve(sudoku);
+                    let solved = SudokuUtils.solve(sudoku);
                     expect(solved).toBe(true)
                     expect(sudoku.isFull()).toBe(true);
                 })

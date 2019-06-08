@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { StoreContext } from "../hooks/StoreContext";
 
-const Test = () => {
+const Ahookstest = () => {
     const { state, dispatch, actions } = useContext(StoreContext);
     return (
         <div>
@@ -24,4 +24,4 @@ const Test = () => {
 
 };
 
-export default Test;
+export default Ahookstest;

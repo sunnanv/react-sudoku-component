@@ -1,5 +1,5 @@
-import {SudokuUtils} from '../parts/sudoku/utils/utils';
-import Sudoku from "../parts/sudoku/components/model/sudoku";
+import * as SudokuUtils from '../src/utils/sudoku_utils'
+import Sudoku from '../src/models/sudoku'
 
 test("Get connected cells to 0", () => {
     let connectedTo0 = SudokuUtils.getConnectedCells(0);
@@ -91,7 +91,7 @@ describe('Tests for invalid sudoku', () =>
         }
     });
 })
-describe('Test for valid sudoku', () => {
+describe('Ahookstest for valid sudoku', () => {
     test("Valid row = valid sudoku", () => {
         let validSudoku = new Sudoku();
         for (let i = 0; i <= 72; i += 9) {

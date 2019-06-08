@@ -9,7 +9,7 @@ import Timer from './parts/timer/timer';
 import KeyboardEventListener from './parts/keyboard-event-listener/keyboard-event-listener';
 
 import { StoreProvider } from "./hooks/StoreContext";
-import Test from './parts/test'
+import Ahookstest from './parts/ahookstest'
 
 const Sudoku = (props) => (
     <StoreProvider>
