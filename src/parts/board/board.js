@@ -1,141 +1,154 @@
-import React from "react";
-import BoardView from './board-view'
-//import * as DISPATCHES from '../../redux/dispatches/dispatches';
-import * as SudokuUtils from '../../utils/sudoku_utils';
+import React, { useContext, useState, useEffect } from "react";
+import { StoreContext } from "../../hooks/StoreContext"
+import './board-styles.css';
+import PropTypes from 'prop-types';
+import * as SudokuUtils from '../../utils/sudoku_utils'
 
+export const Board = (props) => {
+    const { state, dispatch, actions } = useContext(StoreContext);
+    const {
+        board,
+        currentCell,
+        invalidCells,
+        candidates
+    } = state.board_reducer;
+    
+    const solveAnimate = []
 
-const KEYS = {
-    LEFT: 37,
-    UP: 38,
-    RIGHT: 39,
-    DOWN: 40,
-    BACKSPACE: 8,
-    M: 77,
-    KEYBOARD_0: 48,
-    KEYBOARD_9: 57,
-    KEYPAD_0: 96,
-    KEYPAD_9: 105
+    const generateASudoku = () => actions.board.generateSudoku('easy');
+
+    const onCellClicked = (cell) => actions.board.setCurrentCell(cell);
+    const connectedCells = state.board_reducer.showConnectedCells? SudokuUtils.getConnectedCells(state.board_reducer.currentCell):[]
+    
+    const NBR_OF_ROWS = 9;
+    const EMPTY_CELL = 0;
+
+    const activeCellStyle = {background: '#639fff'};
+    const connectedCellStyle = {background: 'yellow'};
+    const solveCellStyle = {background: 'green'};
+
+    const fetchStyleForCell = (i) => {
+        if(solveAnimate.includes(i))
+            return solveCellStyle;
+        else if(currentCell === i)
+            return activeCellStyle;
+        else if(solveAnimate.length === 0 && connectedCells.includes(i))
+            return connectedCellStyle;
+        return null;
+    }
+
+    const isCandidates = (cell) => (board.get(cell) === EMPTY_CELL && candidates.get(cell));
+    const isImmutable = (cell) => (board.getImmutableCells().includes(cell));
+    const isInvalid = (cell) => (invalidCells.includes(cell));
+    const isNumber = (cell) => (board.get(cell) !== EMPTY_CELL)
+
+    const getDataInCell = (cell) => {
+        let number = board.get(cell);
+        if(isImmutable(cell)) 
+            return <b>{number}</b>
+        else if(isInvalid(cell)) 
+            return <b style={{color: 'red'}}>{number}</b>
+        else if(isNumber(cell)) 
+            return number
+        else if(isCandidates(cell)) 
+            return <CandidatesGrid cellCandidates={candidates.get(cell)}/>
+        else 
+            return ''
+    } 
+
+    return (
+        <div>
+       <GridTable 
+            tableClass={"sudoku-board"}
+            rowClass={"sudoku-row"}
+            cellClass={"sudoku-cell"}
+            nbrOfRows={NBR_OF_ROWS}
+            onCellClicked={onCellClicked}
+            cellStyle={fetchStyleForCell}
+            dataParser={getDataInCell}
+        />
+        <button onClick={generateASudoku}>Generate</button>
+        </div>
+    )
 };
 
-class Board extends React.Component {
-    
-   /* componentDidMount() {
-        window.addEventListener('keydown', this.handleKeyDown);
+const CandidatesGrid = (props) => {
+    const {
+        cellCandidates
+    } = props
+
+    const dataParser = (cell) => {
+        return cellCandidates.includes(cell+1)? cell+1 : ' ';
     }
 
-    componentWillUnmount() {
-        window.removeEventListener('keydown', this.handleKeyDown);
-    }
-
-    handleKeyDown = (evt) => {
-        let charCode =  evt.keyCode;
-        let newCell;
-        switch (charCode) {
-            case KEYS.M:
-                this.props.toggleWriteCandidates()
-                break;
-            case KEYS.LEFT:
-                evt.preventDefault();
-                newCell = this.props.currentCell - 1;
-                break;
-            case KEYS.UP:
-                evt.preventDefault();
-                newCell = this.props.currentCell - 9;
-                break;
-            case KEYS.RIGHT:
-                evt.preventDefault();
-                newCell = this.props.currentCell + 1;
-                break;
-            case KEYS.DOWN:
-                evt.preventDefault();
-                newCell = this.props.currentCell + 9;
-                break;
-            case KEYS.BACKSPACE:
-                this.props.setNumber(0, this.props.currentCell);
-                break;
-            default: {
-                if (((charCode <= KEYS.KEYBOARD_9 && charCode >= KEYS.KEYBOARD_0) || (charCode <= KEYS.KEYPAD_9 && charCode >= KEYS.KEYPAD_0))) {
-                    if(this.props.placeAllOfActive) {
-                        this.placeAllOf(parseInt(evt.key));
-                    } else if (!this.props.board.getImmutableCells().includes(this.props.currentCell)) {
-                        if (!this.props.writeCandidates) {
-                            this.props.setNumber(parseInt(evt.key), this.props.currentCell);
-                            
-                            if (this.props.board.isFull() || this.props.onTheGoValidation) {
-                                this.handleValidateSudoku();
-                            }
-                        } else {
-                            this.props.toggleCandidate(this.props.currentCell, parseInt(evt.key))
-                        }
-                    }
-                }
-            }
-        }
-
-        if (newCell === 0 || newCell) {
-            if (newCell < 0) {
-                newCell += 81
-            }
-            this.props.setCurrentCell(newCell % 81);
-
-        }
-
-    };*/
-
-  /*  placeAllOf = (numberToPlace) => {
-        this.props.placeAllOf(numberToPlace)
-    }
-
-    handleValidateSudoku = () => {
-        this.props.validateSudoku();
-        if(this.props.board.isFull() && this.props.invalidCells.length === 0) {
-            this.props.stopTimer();
-        }
-    };*/
-
-    render() {
-        return (
-            <div>
-            {/*this.props.isInitialized > 0
-                ?*/<BoardView 
-                   /* board={this.state.board_reducer.board}
-                    currentCell={this.state.board_reducer.currentCell}
-                    /*invalidCells={this.props.invalidCells}
-                    connectedCells={this.props.showConnectedCells? SudokuUtils.getConnectedCells(this.props.currentCell):[]}
-                    candidates={this.props.candidates}
-                    onCellClicked={(cell) => this.props.setCurrentCell(cell)}
-                    solveAnimate={this.props.solveAnimate}  */
-                />
-            /*:null*/}
-            </div>
-        )
-    }
+    return (
+        <GridTable 
+            tableClass={"candidates-grid"}
+            nbrOfRows={3}
+            dataParser={dataParser}
+        />
+    )
 }
 
-/*const mapStateToProps = (state) => ({
-    board: state.sudoku_reducer.board.board,
-    isInitialized: state.sudoku_reducer.board.isInitialized,
-    currentCell: state.sudoku_reducer.board.currentCell,
-    candidates: state.sudoku_reducer.board.candidates,
-    writeCandidates: state.sudoku_reducer.board.writeCandidates,
-    invalidCells: state.sudoku_reducer.board.invalidCells,
-    onTheGoValidation: state.sudoku_reducer.board.onTheGoValidation,
-    showConnectedCells: state.sudoku_reducer.board.showConnectedCells,
-    placeAllOfActive: state.sudoku_reducer.board.placeAllOfActive,
-    
-    solveAnimate: state.sudoku_reducer.animate.solveAnimate
-})
+const GridTable = (props) => {
 
-const mapDispatchToProps = (dispatch) => ({
-    generateSudoku: (difficulty) => dispatch(DISPATCHES.generateSudoku(difficulty)),
-    setCurrentCell: (currentCell) => dispatch(DISPATCHES.setCurrentCell(currentCell)),
-    toggleWriteCandidates: () => dispatch(DISPATCHES.toggleWriteCandidates()),
-    setNumber: (number, cell) => dispatch(DISPATCHES.setNumber(number, cell)),
-    toggleCandidate: (number, cell) => dispatch(DISPATCHES.toggleCandidate(cell, number)),
-    placeAllOf: (number) => dispatch(DISPATCHES.placeAllOf(number)),
-    validateSudoku: () => dispatch(DISPATCHES.validateSudoku()),
-    stopTimer: () => dispatch(DISPATCHES.stopTimer())
-})
+    const {
+        tableClass,
+        rowClass,
+        cellClass,
+        nbrOfRows,
+        onCellClicked,
+        cellStyle,
+        dataParser
+    } = props
 
-export default connect(mapStateToProps, mapDispatchToProps)(Board)*/
+    const renderCellsInRow = (row) => {
+        let cells = [];
+        const firstCellOfRow = row*nbrOfRows;
+        const lastCellOfRow = firstCellOfRow + nbrOfRows;
+
+        for(let cell = firstCellOfRow; cell<lastCellOfRow; ++cell) {
+            cells.push(
+                <td
+                    className={cellClass}
+                    key={cell}
+                    style={cellStyle? cellStyle(cell) : null}
+                    onClick={onCellClicked? () => onCellClicked(cell):null}
+                >
+                    {dataParser(cell)}
+                </td>
+            )
+        }
+        return (
+            <tr key={row} className={rowClass}>
+                {cells}
+            </tr>
+        )
+    }
+
+    const renderRows = () => {
+        let rows = [];
+        for(let row = 0; row < nbrOfRows; ++row) {
+            rows.push(
+                    renderCellsInRow(row)
+            )
+        }
+
+        return (
+            <tbody>{rows}</tbody>
+        )
+    }
+
+    return (
+        <table className={tableClass}>
+            {renderRows()}
+        </table>
+    )
+}
+
+/**
+ * TODO Add logic for "place all of a specific number"
+ * TODO Add logic for validate a full sudoku
+ */
+
 export default Board;

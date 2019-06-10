@@ -1,7 +1,45 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { StoreContext } from "../../hooks/StoreContext"
+import { StoreContext } from "StoreContext"
 
+const DIRECTIONAL_KEYS = {
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40,
+}
+
+const DELETING_KEYS = {
+    BACKSPACE: 8,
+    DEL: 46,
+    KEYBOARD_0: 48,
+    KEYPAD_0: 96,
+}
+
+const NUMERIC_KEYS = {
+    KEYBOARD_1:49,
+    KEYBOARD_2:50,
+    KEYBOARD_3:51,
+    KEYBOARD_4:52,
+    KEYBOARD_5:53,
+    KEYBOARD_6:54,
+    KEYBOARD_7:55,
+    KEYBOARD_8:56,
+    KEYBOARD_9: 57,
+    KEYPAD_1: 97,
+    KEYPAD_2: 98,
+    KEYPAD_3: 99,
+    KEYPAD_4: 100,
+    KEYPAD_5: 101,
+    KEYPAD_6: 102,
+    KEYPAD_7: 103,
+    KEYPAD_8: 104,
+    KEYPAD_9: 105
+}
+
+const FUNCTIONAL_KEYS = {
+    M: 77,
+}
 
 const KEYS = {
     LEFT: 37,
@@ -9,6 +47,7 @@ const KEYS = {
     RIGHT: 39,
     DOWN: 40,
     BACKSPACE: 8,
+    DEL: 46,
     M: 77,
     KEYBOARD_0: 48,
     KEYBOARD_9: 57,
@@ -37,28 +76,22 @@ const KeyboardEventListener = (props) => {
             handleNumericKey(parseInt(event.key));
         else if(keyIsDirectional(keyCode))
             handleDirectionalKey(keyCode);
-        else if(keyIsBackspace(keyCode))
-            handleBackspaceKey();
+        else if(keyIsDeleting(keyCode))
+            handleDeletingKey();
         else if(keyIsFunctional(keyCode))
             handleFunctionalKey();        
     }
 
-    const keyIsNumeric = (keyCode) => 
-    ((keyCode <= KEYS.KEYBOARD_9 && keyCode >= KEYS.KEYBOARD_0) 
-    || (keyCode <= KEYS.KEYPAD_9 && keyCode >= KEYS.KEYPAD_0));
+    const keyIsNumeric = (keyCode) => Object.values(NUMERIC_KEYS).includes(keyCode);
 
-    const keyIsDirectional = (keyCode) =>
-    (keyCode === KEYS.LEFT || keyCode === KEYS.RIGHT
-    || keyCode === KEYS.UP || keyCode === KEYS.DOWN);
+    const keyIsDirectional = (keyCode) => Object.values(DIRECTIONAL_KEYS).includes(keyCode);
 
-    const keyIsBackspace = (keyCode) => (keyCode === KEYS.BACKSPACE);
+    const keyIsDeleting = (keyCode) => Object.values(DELETING_KEYS).includes(keyCode);
 
-    const keyIsFunctional = (keyCode) => (keyCode === KEYS.M);
+    const keyIsFunctional = (keyCode) => Object.values(FUNCTIONAL_KEYS).includes(keyCode);
 
-    const handleNumericKey = (number) => {
-        console.log("numeric " + number)
-        actions.board.setNumber(number, state.currentCell)
-    }
+
+    const handleNumericKey = (number) => actions.board.setNumber(number, state.currentCell)
 
     const directionValues = {
         37: -1,
@@ -67,9 +100,7 @@ const KeyboardEventListener = (props) => {
         40: 9
     }
     const handleDirectionalKey = (directionKeyCode) => {
-        console.log("directional");
         let newCell = state.board_reducer.currentCell + directionValues[directionKeyCode];
-        console.log(newCell);
 
         if(newCell < 0)
             newCell += 81;
@@ -78,9 +109,7 @@ const KeyboardEventListener = (props) => {
         
     };
 
-    const handleBackspaceKey = () => {
-        actions.board.setNumber(0, state.currentCell);
-    };
+    const handleDeletingKey = () => actions.board.setNumber(0, state.currentCell);
 
     const handleFunctionalKey = () => {console.log("functional")};
 

@@ -28,7 +28,11 @@ module.exports = {
     },
     plugins: [htmlWebpackPlugin],
     resolve: {
-        extensions: [".js", ".jsx"]
+        extensions: [".js", ".jsx"],
+        alias: {
+            StoreContext: path.resolve(__dirname, './src/hooks/StoreContext'),
+            parts: path.resolve(__dirname, './src/parts')
+        }
     },
     devServer: {
         port: 3001
