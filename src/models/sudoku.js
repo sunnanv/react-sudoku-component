@@ -48,6 +48,10 @@ class Sudoku {
         return this.initials.map(initial => initial.cell);
     }
 
+    isImmutableCell(cell) {
+        return this.getImmutableCells().includes(cell)
+    }
+
     addInitial(cell, number) {
         this.set(cell, number);
         this.initials.push({cell: cell, number: number})

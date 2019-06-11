@@ -222,7 +222,7 @@ export class SudokuUtils {
      */
     export const validate_sudoku = (board) => {
         let invalidCells = [];
-        for (let i = 0; i < 80; ++i) {
+        for (let i = 0; i < 81; ++i) {
             if (!validateCell(board, i))
                 invalidCells.push(i);
         }

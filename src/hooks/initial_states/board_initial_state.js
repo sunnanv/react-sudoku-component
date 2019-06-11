@@ -10,7 +10,7 @@ export const boardInitialState = {
     candidates: new Map(),
     solution: new Sudoku(),
     invalidCells: [],
-    showHelp: false,
+    showHelp: true, //false
     helpUsage: new Map([['validation', 0], ['hint', 0], ['placeAllOf', 0],['onTheGoValidation', false]]),
     onTheGoValidation: false,
     showConnectedCells: true,

@@ -1,11 +1,9 @@
 .controll-button-container {
-    margin-top: 5px;
-    margin-bottom: 25px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 5px auto 25px;
     width: 45vw;
     min-width: 500px;
     max-width: 500px;
+    text-align: center;
 }
 
 .open {

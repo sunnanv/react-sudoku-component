@@ -1,28 +1,48 @@
-import React from 'react'
-import DifficultyButtonsView from './difficulty-buttons-view';
-//import * as DISPATCHES from '../../redux/dispatches/dispatches';
+import React, { useContext } from "react";
+import { StoreContext } from "../../hooks/StoreContext";
+import './difficulty-buttons-styles.css';
 
-class DifficultyButtons extends React.Component {
 
-    render() {
-        return (
-            <DifficultyButtonsView
-  //              difficulty={this.props.difficulty}
-  //              onDifficultyChanged={(difficulty) => this.props.generateSudoku(difficulty)}
-            />
-        )
-    }
+const DifficultyButtons = (props) => {
+    const { state, dispatch, actions } = useContext(StoreContext);
+
+    const {
+        difficulty
+    } = state.board_reducer;
+
+    const {
+        generateSudoku
+    } = actions.board;
+
+    
+    return (
+        <React.Fragment>
+            <div className="button-container">
+                <DifficultyButton difficultyForButton={'easy'} onClick={generateSudoku} difficulty={difficulty} />
+                <DifficultyButton difficultyForButton={'medium'} onClick={generateSudoku} difficulty={difficulty} />
+                <DifficultyButton difficultyForButton={'hard'} onClick={generateSudoku} difficulty={difficulty} />
+            </div>
+        </React.Fragment>
+    )
 }
 
-/*
-const mapStateToProps = (state) => ({
-    difficulty: state.sudoku_reducer.board.difficulty
-})
+const DifficultyButton = (props) => {
+    const {
+        difficultyForButton,
+        difficulty,
+        onClick
+    } = props;
 
-const mapDispatchToProps = (dispatch) => ({
-    generateSudoku: (difficulty) => dispatch(DISPATCHES.generateSudoku(difficulty))
-})
+    const activeStyle = 'difficulty-button difficulty-button-active';
+    const normalStyle = 'difficulty-button';
 
-export default connect (mapStateToProps,mapDispatchToProps)(DifficultyButtons)
-*/
+    return (
+        <button
+            className={difficultyForButton === difficulty? activeStyle:normalStyle}
+            onClick={() => onClick(difficultyForButton)}>
+            {difficultyForButton}
+        </button>
+    )
+};
+
 export default DifficultyButtons;

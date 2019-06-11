@@ -7,14 +7,14 @@ const DIRECTIONAL_KEYS = {
     UP: 38,
     RIGHT: 39,
     DOWN: 40,
-}
+};
 
 const DELETING_KEYS = {
     BACKSPACE: 8,
     DEL: 46,
     KEYBOARD_0: 48,
     KEYPAD_0: 96,
-}
+};
 
 const NUMERIC_KEYS = {
     KEYBOARD_1:49,
@@ -35,41 +35,28 @@ const NUMERIC_KEYS = {
     KEYPAD_7: 103,
     KEYPAD_8: 104,
     KEYPAD_9: 105
-}
+};
 
 const FUNCTIONAL_KEYS = {
     M: 77,
-}
-
-const KEYS = {
-    LEFT: 37,
-    UP: 38,
-    RIGHT: 39,
-    DOWN: 40,
-    BACKSPACE: 8,
-    DEL: 46,
-    M: 77,
-    KEYBOARD_0: 48,
-    KEYBOARD_9: 57,
-    KEYPAD_0: 96,
-    KEYPAD_9: 105
 };
 
 const KeyboardEventListener = (props) => {
     const { state, dispatch, actions } = useContext(StoreContext);
 
-    if(props.active)
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
+    if(props.active) {
+        useEffect(() => {
+            window.addEventListener('keydown', handleKeyDown);
 
-        return function cleanup() {
-            window.removeEventListener('keydown', handleKeyDown);
-        }
-    })
+            return function cleanup() {
+                window.removeEventListener('keydown', handleKeyDown);
+            }
+        });
+    }
 
     const handleKeyDown = (event) => {
         const keyCode = event.keyCode;
-        if(Object.values(KEYS).includes(keyCode))
+        if(keyExists(keyCode)){
             event.preventDefault();
 
         if(keyIsNumeric(keyCode))
@@ -79,8 +66,11 @@ const KeyboardEventListener = (props) => {
         else if(keyIsDeleting(keyCode))
             handleDeletingKey();
         else if(keyIsFunctional(keyCode))
-            handleFunctionalKey();        
-    }
+            handleFunctionalKey();
+        }
+    };
+
+    const keyExists = (keyCode) => keyIsNumeric(keyCode) || keyIsDirectional(keyCode) || keyIsDeleting(keyCode) || keyIsFunctional(keyCode)
 
     const keyIsNumeric = (keyCode) => Object.values(NUMERIC_KEYS).includes(keyCode);
 
@@ -91,14 +81,15 @@ const KeyboardEventListener = (props) => {
     const keyIsFunctional = (keyCode) => Object.values(FUNCTIONAL_KEYS).includes(keyCode);
 
 
-    const handleNumericKey = (number) => actions.board.setNumber(number, state.currentCell)
+    const handleNumericKey = (number) => actions.board.handleNumberClick(number);
 
     const directionValues = {
         37: -1,
         39: 1,
         38: -9,
         40: 9
-    }
+    };
+
     const handleDirectionalKey = (directionKeyCode) => {
         let newCell = state.board_reducer.currentCell + directionValues[directionKeyCode];
 

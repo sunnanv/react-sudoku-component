@@ -1,33 +1,33 @@
 import * as types from "../action_types";
-import { SET_NUMBER, VALIDATE_SUDOKU } from "../action_types";
+import { SET_BOARD, VALIDATE_SUDOKU } from "../action_types";
 
 export const useBoardDispatches = (state, dispatch) => {
 
     const resetBoard = () => dispatch({
         type: types.RESET_BOARD
-    })
+    });
     
     const setDifficulty = (difficulty) => dispatch({
         type: types.SET_DIFFICULTY, 
         payload: {
             difficulty
         }
-    })
+    });
 
     const startFetchingBoard = () => dispatch({
         type: types.START_FETCHING_BOARD
-    })
+    });
 
     const doneFetchingBoard = () => dispatch({
         type: types.DONE_FETCHING_BOARD
-    })
+    });
 
     const initializeBoard = (initials) => dispatch({
         type: types.INITIALIZE_BOARD,
         payload: {
             initials
         }
-    })
+    });
 
     const setCurrentCell = (currentCell) => dispatch({
         type: types.SET_CURRENT_CELL,
@@ -36,11 +36,10 @@ export const useBoardDispatches = (state, dispatch) => {
         }
     })
 
-    const setNumber = (number, cell) => dispatch({
-        type: types.SET_NUMBER,
+    const setBoard = (board) => dispatch({
+        type: types.SET_BOARD,
         payload: {
-            number,
-            cell
+            board
         }
     })
 
@@ -52,11 +51,10 @@ export const useBoardDispatches = (state, dispatch) => {
         type: types.TOGGLE_WRITE_CANDIDATES
     })
 
-    const toggleCandidate = (candidate, cell) => dispatch({
+    const setCandidates = (candidates) => dispatch({
         type: types.TOGGLE_CANDIDATE,
         payload: {
-            cell, 
-            candidate
+            candidates
         }
     })
 
@@ -97,13 +95,6 @@ export const useBoardDispatches = (state, dispatch) => {
         type: types.TOGGLE_PLACE_ALL_OF_ACTIVE
     })
 
-    const setInvalidCells = (invalidCells) => dispatch({
-        type: types.SET_INVALID_CELLS,
-        payload: {
-            invalidCells
-        }
-    })
-
     const removeCellFromInvalid = (cell) => dispatch({
         type: types.REMOVE_CELL_FROM_INVALID,
         payload: {
@@ -116,11 +107,14 @@ export const useBoardDispatches = (state, dispatch) => {
         payload: {
             number
         }
-    })
+    });
 
-    const validateSudoku = () => dispatch({
-        type: VALIDATE_SUDOKU
-    })
+    const setInvalidCells = (invalidCells) => dispatch({
+        type: VALIDATE_SUDOKU,
+        payload: {
+            invalidCells
+        }
+    });
 
     return {
         resetBoard,
@@ -129,10 +123,10 @@ export const useBoardDispatches = (state, dispatch) => {
         doneFetchingBoard,
         initializeBoard,
         setCurrentCell,
-        setNumber,
+        setBoard,
         clearBoard,
         toggleWriteCandidates,
-        toggleCandidate,
+        setCandidates,
         setSolution,
         toggleShowHelp,
         addHelpUsage,
@@ -140,9 +134,8 @@ export const useBoardDispatches = (state, dispatch) => {
         toggleOnTheGoValidation,
         toggleShowConnectedCells,
         togglePlaceAllOfActive,
-        setInvalidCells,
         removeCellFromInvalid,
         placeAllOf,
-        validateSudoku
+        setInvalidCells
     }
 };

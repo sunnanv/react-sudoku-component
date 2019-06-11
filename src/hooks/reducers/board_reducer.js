@@ -43,13 +43,10 @@ const board_reducer = (state = boardInitialState, action) => {
                 currentCell: action.payload.currentCell
             }
         }
-        case types.SET_NUMBER: {
-            let newBoard = state.board.copy()
-            let cell = action.payload.cell? action.payload.cell : state.currentCell;
-            newBoard.set(cell, action.payload.number)
+        case types.SET_BOARD: {
             return ({
                 ...state,
-                board: newBoard
+                board: action.payload.board
             })
         }
         case types.CLEAR_BOARD: {
@@ -62,32 +59,16 @@ const board_reducer = (state = boardInitialState, action) => {
             })
         }
         case types.TOGGLE_WRITE_CANDIDATES: {
+
             return ({
                 ...state,
                 writeCandidates: !state.writeCandidates
             })
         }
         case types.TOGGLE_CANDIDATE: {
-            let newCandidates = new Map(state.candidates);
-            let cellCandidates = state.candidates.get(action.payload.cell);
-            if(cellCandidates) {
-                // There are candidates for this cell, check if this candidate exists
-                let contains = cellCandidates.includes(action.payload.candidate);
-                if(contains) {
-                    // It exists, remove from list
-                    cellCandidates = cellCandidates.filter(candidate => candidate !== action.payload.candidate);
-                }else {
-                    // It doesn't exist, add to list
-                    cellCandidates.push(action.payload.candidate);
-                }
-                newCandidates.set(action.payload.cell, cellCandidates);
-            } else {
-                // There are no current, just add candidate
-                newCandidates.set(action.payload.cell, [action.payload.candidate]);
-            }
             return ({
                 ...state,
-                candidates: newCandidates
+                candidates: action.payload.candidates
             })
         }
         case types.SET_SOLUTION: {
@@ -165,10 +146,9 @@ const board_reducer = (state = boardInitialState, action) => {
             })
         }
         case types.VALIDATE_SUDOKU: {
-            let invalid = SudokuUtils.validate_sudoku(state.board);
             return ({
                 ...state,
-                invalidCells: invalid
+                invalidCells: action.payload.invalidCells
             })
         }
         default: {

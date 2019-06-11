@@ -1,65 +1,84 @@
-import React from 'react';
-//import { connect } from 'react-redux';
-//import * as DISPATCHES from '../../redux/dispatches/dispatches';
-import ControlButtonsView from './control-buttons-view';
+import React, { useContext, useState, useEffect } from "react";
+import { StoreContext } from "../../hooks/StoreContext"
+import './control-buttons-styles.css'
+import PropTypes from 'prop-types'
 
-class ControlButtons extends React.Component {
+const ControlButtons = (props) => {
+    const { state, dispatch, actions } = useContext(StoreContext);
 
-  /*  handleAddHint = () => {
-        if (!this.props.board.getImmutableCells().includes(this.props.currentCell)){
-            this.props.addHint(this.props.currentCell, this.props.solution)
-        }
-    }*/
+    const {
+        showHelp,
+        onTheGoValidation,
+        showConnectedCells,
+        placeAllOfActive
+    } = state.board_reducer;
 
-    render() {
-        return (
-            <React.Fragment>
-            {/*this.props.isInitialized > 0
-            ?*/
-            <ControlButtonsView
-               /* onValidateSudoku={this.props.validateSudoku}
-                onClearBoard={this.props.clearBoard}
-                onSolveSudoku={this.props.solveSudoku}
-                onAddHint={this.handleAddHint}
-                showHelp={this.props.showHelp}
-                toggleShowHelp={this.props.toggleShowHelp}
-                onTheGoValidation={this.props.onTheGoValidation}
-                toggleOnTheGoValidation={this.props.toggleOnTheGoValidation}
-                showConnectedCells={this.props.showConnectedCells}
-                toggleShowConnectedCells={this.props.toggleShowConnectedCells}
-                placeAllOfActive={this.props.placeAllOfActive}
-                togglePlaceAllOfActive={this.props.togglePlaceAllOfActive}
-           */ />
-            //: null
-        }
-            </React.Fragment>
-        )
-    }
+    const {
+        validateSudoku,//
+        clearBoard,//
+        solveSudoku,
+        addHint,
+        toggleShowHelp,
+        toggleOnTheGoValidation,
+        toggleShowConnectedCells,
+        togglePlaceAllOfActive
+    } = actions.board;
+
+    let slideDown = "controll-button-container open";
+    let normalClass = "controll-button-container";
+
+    return (
+        <React.Fragment>
+        <button onClick={toggleShowHelp}>{showHelp? 'Hide Help':'Show Help'}</button>
+        <div className={showHelp? slideDown:normalClass}
+            style={showHelp? {visibility: 'visible'} : {visibility: 'hidden'}}>
+            <ControlButton onClick={clearBoard}>Clear</ControlButton>
+            <ControlButton onClick={solveSudoku}>Solve</ControlButton>
+            <ControlButton onClick={() => validateSudoku()}>Validate</ControlButton>
+            <ControlButton onClick={() => addHint()}>Hint</ControlButton>
+            <ControlButton onClick={togglePlaceAllOfActive} isActive={placeAllOfActive}>Hint all of #</ControlButton>
+            <ControlButton onClick={toggleOnTheGoValidation} isActive={onTheGoValidation}>Validate OnTheGo</ControlButton>
+            <ControlButton onClick={toggleShowConnectedCells} isActive={showConnectedCells}>Show connected cells</ControlButton>
+        </div>
+        </React.Fragment>
+    )
+};
+
+const ControlButton = (props) => {
+    const {
+        onClick,
+        isActive,
+        children
+    } = props;
+
+    return (
+        <button 
+            className={"controll-button"} 
+            onClick={onClick} 
+            style={isActive? {background: 'red'} : null}>
+                {children}
+        </button>
+    )
+}
+/*
+ControlButton.propTypes = {
+    onClick: PropTypes.func,
+    isActive: PropTypes.bool
 }
 
-/*
-const mapStateToProps = (state) => ({
-    currentCell: state.sudoku_reducer.board.currentCell,
-    board: state.sudoku_reducer.board.board,
-    isInitialized: state.sudoku_reducer.board.isInitialized,
-    solution: state.sudoku_reducer.board.solution,
-    showHelp: state.sudoku_reducer.board.showHelp,
-    onTheGoValidation: state.sudoku_reducer.board.onTheGoValidation,
-    showConnectedCells: state.sudoku_reducer.board.showConnectedCells,
-    placeAllOfActive: state.sudoku_reducer.board.placeAllOfActive
+ControlButtonsView.propTypes = {
+    onValidateSudoku: PropTypes.func.isRequired,
+    onClearBoard: PropTypes.func.isRequired,
+    onSolveSudoku: PropTypes.func.isRequired,
+    onAddHint: PropTypes.func.isRequired,
+    toggleShowHelp: PropTypes.func.isRequired,
+    toggleOnTheGoValidation: PropTypes.func.isRequired,
+    toggleShowConnectedCells: PropTypes.func.isRequired,
+    togglePlaceAllOfActive: PropTypes.func.isRequired,
+    showHelp: PropTypes.bool.isRequired,
+    onTheGoValidation: PropTypes.bool.isRequired,
+    showConnectedCells: PropTypes.bool.isRequired,
+    placeAllOfActive: PropTypes.bool.isRequired
 
-})
-
-const mapDispatchToProps = (dispatch) => ({
-    clearBoard: () => dispatch(DISPATCHES.clearBoard()),
-    addHint: (cell) => dispatch(DISPATCHES.addHint(cell)),
-    toggleShowHelp: () => dispatch(DISPATCHES.toggleShowHelp()),
-    toggleOnTheGoValidation: () => dispatch(DISPATCHES.toggleOnTheGoValidation()),
-    toggleShowConnectedCells: () => dispatch(DISPATCHES.toggleShowConnectedCells()),
-    togglePlaceAllOfActive: () => dispatch(DISPATCHES.togglePlaceAllOfActive()),
-    validateSudoku: () => dispatch(DISPATCHES.validateSudoku()),
-    solveSudoku: () => dispatch(DISPATCHES.solveSudoku())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ControlButtons)*/
+};*/
 export default ControlButtons;

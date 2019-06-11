@@ -1,47 +1,49 @@
-import React from 'react';
-/*import { connect } from 'react-redux';
-import * as DISPATCHES from '../../redux/dispatches/dispatches';*/
-import TimerView from './timer-view'
+import React, { useContext, useState, useEffect } from "react";
+import { StoreContext } from "../../hooks/StoreContext"
+import PropTypes from 'prop-types';
+import './timer-styles.css';
 
+const Timer = (props) => {
+    const { state, dispatch, actions } = useContext(StoreContext);
 
-class Timer extends React.Component {
-/*
-    interval = -100;
+    let interv = -100
+    useEffect(() => {
+        interv = setInterval(tickTimer, 1000);
 
-
-    componentDidMount() {
-//        this.props.startTimer();
-        this.interval = setInterval(() => this.handleTimerTick(), 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.interval)
-    }
-
-    handleTimerTick = () => {
-        if (this.props.timerActive) {
-            this.props.tickTimer()
+        return function cleanup() {
+            clearInterval(interv)
         }
+    });
+
+    const tickTimer = () => {
+        actions.timer.tickTimer();
     };
-*/
-    render() {
-        return (
-            <TimerView
-  //              timeElapsed={this.props.currentTime}
-            />
-        )
-    }
+
+    const {
+        timeElapsed
+    } = state.timer_reducer;
+
+    const formatTime = () => {
+        let time = timeElapsed;
+        let h = Math.floor(time/60/60);
+        let m = Math.floor(time/60) - h*60;
+        let s = time - h*60*60 - m*60;
+
+        let hh = h < 10? `0${h}` : `${h}`;
+        let mm = m < 10? `0${m}` : `${m}`;
+        let ss = s < 10? `0${s}` : `${s}`;
+        
+        return `${hh}:${mm}:${ss}`
+    };
+
+    return (
+        <h5 className="timer-container">{formatTime()}</h5>
+    )
+};
+
+/*
+TimerView.propTypes = {
+    timeElapsed: PropTypes.number.isRequired
 }
-
-/*const mapStateToProps = (state) => ({
-    currentTime: state.sudoku_reducer.timer.currentTime,
-    timerActive: state.sudoku_reducer.timer.timerActive
-})
-
-const mapDispatchToProps = (dispatch) => ({
-    startTimer: () => dispatch(DISPATCHES.startTimer()),
-    tickTimer: () => dispatch(DISPATCHES.tickTimer())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Timer)*/
+*/
 export default Timer;
