@@ -27,21 +27,26 @@ const ControlButtons = (props) => {
     let slideDown = "controll-button-container open";
     let normalClass = "controll-button-container";
 
-    return (
-        <React.Fragment>
-        <button onClick={toggleShowHelp}>{showHelp? 'Hide Help':'Show Help'}</button>
-        <div className={showHelp? slideDown:normalClass}
-            style={showHelp? {visibility: 'visible'} : {visibility: 'hidden'}}>
-            <ControlButton onClick={clearBoard}>Clear</ControlButton>
-            <ControlButton onClick={solveSudoku}>Solve</ControlButton>
-            <ControlButton onClick={() => validateSudoku()}>Validate</ControlButton>
-            <ControlButton onClick={() => addHint()}>Hint</ControlButton>
-            <ControlButton onClick={togglePlaceAllOfActive} isActive={placeAllOfActive}>Hint all of #</ControlButton>
-            <ControlButton onClick={toggleOnTheGoValidation} isActive={onTheGoValidation}>Validate OnTheGo</ControlButton>
-            <ControlButton onClick={toggleShowConnectedCells} isActive={showConnectedCells}>Show connected cells</ControlButton>
-        </div>
-        </React.Fragment>
-    )
+    if(state.board_reducer.isInitialized)
+        return (
+            <div className={"show-help-container"}>
+            <button className="show-help-button" onClick={toggleShowHelp}>{showHelp? 'Hide Help':'Show Help'}</button>
+            <div className={showHelp? slideDown:normalClass}
+                style={showHelp? {visibility: 'visible'} : {visibility: 'hidden'}}>
+                <ControlButton onClick={clearBoard}>Clear</ControlButton>
+                <ControlButton onClick={solveSudoku}>Solve</ControlButton>
+                <ControlButton onClick={() => validateSudoku()}>Validate</ControlButton>
+                <ControlButton onClick={() => addHint()}>Hint</ControlButton>
+                <ControlButton onClick={togglePlaceAllOfActive} isActive={placeAllOfActive}>Hint all of #</ControlButton>
+                <ControlButton onClick={toggleOnTheGoValidation} isActive={onTheGoValidation}>Validate OnTheGo</ControlButton>
+                <ControlButton onClick={toggleShowConnectedCells} isActive={showConnectedCells}>Show connected cells</ControlButton>
+            </div>
+            </div>
+        )
+    else
+        return (
+            <React.Fragment />
+        )
 };
 
 const ControlButton = (props) => {

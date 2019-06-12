@@ -38,11 +38,17 @@ const NumberButtons = (props) => {
         </button>
     );
 
-    return (
-        <div className="number-container">
-            {buttons}
-        </div>
-    )
+
+    if(state.board_reducer.isInitialized)
+        return (
+            <div className="number-container">
+                {buttons}
+            </div>
+        )
+    else
+        return (
+            <React.Fragment />
+        )
 };
 
 export default NumberButtons;

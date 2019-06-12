@@ -1,3 +1,15 @@
+.show-help-container {
+    text-align: center;
+}
+
+.show-help-button {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    background: none;
+    border: 2px solid black;
+    outline: none;
+}
+
 .controll-button-container {
     margin: 5px auto 25px;
     width: 45vw;
@@ -6,12 +18,14 @@
     text-align: center;
 }
 
+
+
 .open {
     animation-name: slideDown;
     -webkit-animation-name: slideDown;
 
-    animation-duration: 1s;
-    -webkit-animation-duration: 1s;
+    animation-duration: 0.2s;
+    -webkit-animation-duration: 0.2s;
 }
 
 @keyframes slideDown {

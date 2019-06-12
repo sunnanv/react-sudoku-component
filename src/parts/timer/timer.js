@@ -16,7 +16,8 @@ const Timer = (props) => {
     });
 
     const tickTimer = () => {
-        actions.timer.tickTimer();
+        if(state.timer_reducer.timerActive)
+            actions.timer.tickTimer();
     };
 
     const {

@@ -15,7 +15,7 @@ const Sudoku = (props) => (
         <KeyboardEventListener active={props.keyboardActive}>
             <Timer />
             <DifficultyButtons />
-            <Board/>
+            <Board />
             <NumberButtons />
             <ControlButtons />
         </KeyboardEventListener>

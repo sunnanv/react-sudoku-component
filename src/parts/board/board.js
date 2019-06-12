@@ -44,32 +44,36 @@ export const Board = (props) => {
 
     const getDataInCell = (cell) => {
         let number = board.get(cell);
-        if(isImmutable(cell)) 
+        if (isImmutable(cell))
             return <b>{number}</b>
-        else if(isInvalid(cell)) 
+        else if (isInvalid(cell))
             return <b style={{color: 'red'}}>{number}</b>
-        else if(isNumber(cell)) 
+        else if (isNumber(cell))
             return number
-        else if(isCandidates(cell)) 
+        else if (isCandidates(cell))
             return <CandidatesGrid cellCandidates={candidates.get(cell)}/>
-        else 
+        else
             return ''
-    } 
+    }
 
-    return (
-        <div>
-       <GridTable 
-            tableClass={"sudoku-board"}
-            rowClass={"sudoku-row"}
-            cellClass={"sudoku-cell"}
-            nbrOfRows={NBR_OF_ROWS}
-            onCellClicked={onCellClicked}
-            cellStyle={fetchStyleForCell}
-            dataParser={getDataInCell}
-        />
-        <button onClick={generateASudoku}>Generate</button>
-        </div>
+    if(state.board_reducer.isInitialized)
+        return (
+            <React.Fragment>
+                <GridTable
+                    tableClass={"sudoku-board"}
+                    rowClass={"sudoku-row"}
+                    cellClass={"sudoku-cell"}
+                    nbrOfRows={NBR_OF_ROWS}
+                    onCellClicked={onCellClicked}
+                    cellStyle={fetchStyleForCell}
+                    dataParser={getDataInCell}
+                />
+            </React.Fragment>
     )
+    else
+        return (
+            <React.Fragment/>
+        )
 };
 
 const CandidatesGrid = (props) => {

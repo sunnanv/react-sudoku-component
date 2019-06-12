@@ -1,15 +1,17 @@
 import { useBoardDispatches } from './board_dispatches';
+import { useTimerDispatches } from "./timer_dispatches";
 
 import * as SudokuUtils from '../../utils/sudoku_utils';
-import Sudoku from '../../models/sudoku'
+import Sudoku from '../../models/sudoku';
 
 export const useBoardActions = (state, dispatch) => {
     const boardDispatches = useBoardDispatches(state, dispatch);
+    const timerDispatches = useTimerDispatches(state, dispatch);
 
     const generateSudoku = (difficulty) => {
-        /*timerDispatches.resetTimer();
-        animateDispatches.resetAnimate();
-        */
+        timerDispatches.resetTimer();
+        //animateDispatches.resetAnimate();
+
         boardDispatches.resetBoard();
         boardDispatches.setDifficulty(difficulty);
 
@@ -31,7 +33,7 @@ export const useBoardActions = (state, dispatch) => {
             solutionInitials.push({cell: i, number: solution.get(i)});
         }
         boardDispatches.setSolution(new Sudoku(solutionInitials));
-        // timerDispatches.startTimer();
+        timerDispatches.startTimer();
             
     
 
@@ -80,7 +82,7 @@ export const useBoardActions = (state, dispatch) => {
         let invalidCells = SudokuUtils.validate_sudoku(board);
         boardDispatches.setInvalidCells(invalidCells);
         if(invalidCells.length === 0 && board.isFull()) {
-            //timerDispatches.stopTimer();
+            timerDispatches.stopTimer();
         }
     };
 
@@ -108,7 +110,8 @@ export const useBoardActions = (state, dispatch) => {
     };
 
     const solveSudoku = () => {
-        boardDispatches.setBoard(state.board_reducer.solution)
+        boardDispatches.setBoard(state.board_reducer.solution);
+        timerDispatches.stopTimer();
     };
 
     const placeAllOf = (number) => {
