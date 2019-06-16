@@ -1,9 +1,128 @@
 import * as types from "../action_types";
-import { SET_BOARD, VALIDATE_SUDOKU } from "../action_types";
 
 export const useBoardDispatches = (state, dispatch) => {
 
-    const resetBoard = () => dispatch({
+    const resetState = () => dispatch({
+        type: types.RESET_STATE
+    });
+
+    const setLoading = (isLoading) => dispatch({
+        type: types.SET_LOADING,
+        payload: {
+            isLoading
+        }
+    });
+
+    const setBoard = (board) => dispatch({
+        type: types.SET_BOARD,
+        payload: {
+            board
+        }
+    });
+
+    const setInitialized = (isInitialized = true) => dispatch({
+        type: types.SET_INITIALIZED,
+        payload: {
+            isInitialized
+        }
+    });
+
+    const setDifficulty = (difficulty) => dispatch({
+        type: types.SET_DIFFICULTY,
+        payload: {
+            difficulty
+        }
+    });
+
+    const setCurrentCell = (currentCell) => dispatch({
+        type: types.SET_CURRENT_CELL,
+        payload: {
+            currentCell
+        }
+    });
+
+    const setWriteCandidates = (writeCandidates) => dispatch({
+        type: types.SET_WRITE_CANDIDATES,
+        payload: {
+            writeCandidates
+        }
+    });
+
+    const setCandidates = (candidates) => dispatch({
+        type: types.SET_CANDIDATES,
+        payload: {
+            candidates
+        }
+    });
+
+    const setSolution = (solution) => dispatch({
+        type: types.SET_SOLUTION,
+        payload: {
+            solution
+        }
+    });
+
+    const setInvalidCells = (invalidCells) => dispatch({
+        type: types.SET_INVALID_CELLS,
+        payload: {
+            invalidCells
+        }
+    });
+
+    const setShowHelp = (showHelp) => dispatch({
+        type: types.SET_SHOW_HELP,
+        payload: {
+            showHelp
+        }
+    });
+
+    const setHelpUsage = (helpUsage) => dispatch({
+        type: types.SET_HELP_USAGE,
+        payload: {
+            helpUsage
+        }
+    });
+
+    const setOnTheGoValidation = (onTheGoValidation) => dispatch({
+        type: types.SET_ON_THE_GO_VALIDATION,
+        payload: {
+            onTheGoValidation
+        }
+    });
+
+    const setShowConnectedCells = (showConnectedCells) => dispatch({
+        type: types.SET_SHOW_CONNECTED_CELLS,
+        payload: {
+            showConnectedCells
+        }
+    });
+
+    const setPlaceAllOfActive = (placeAllOfActive) => dispatch({
+        type: types.SET_PLACE_ALL_OF_ACTIVE,
+        payload: {
+            placeAllOfActive
+        }
+    });
+
+
+    return {
+        resetState,
+        setLoading,
+        setBoard,
+        setInitialized,
+        setDifficulty,
+        setCurrentCell,
+        setWriteCandidates,
+        setCandidates,
+        setSolution,
+        setInvalidCells,
+        setShowHelp,
+        setHelpUsage,
+        setOnTheGoValidation,
+        setShowConnectedCells,
+        setPlaceAllOfActive,
+    }
+   /* const resetBoard = () => dispatch({
         type: types.RESET_BOARD
     });
     
@@ -22,10 +141,10 @@ export const useBoardDispatches = (state, dispatch) => {
         type: types.DONE_FETCHING_BOARD
     });
 
-    const initializeBoard = (initials) => dispatch({
+    const initializeBoard = (immutable) => dispatch({
         type: types.INITIALIZE_BOARD,
         payload: {
-            initials
+            immutable
         }
     });
 
@@ -137,5 +256,5 @@ export const useBoardDispatches = (state, dispatch) => {
         removeCellFromInvalid,
         placeAllOf,
         setInvalidCells
-    }
+    }*/
 };

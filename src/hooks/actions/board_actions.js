@@ -11,8 +11,7 @@ export const useBoardActions = (state, dispatch) => {
     const generateSudoku = (difficulty) => {
         timerDispatches.resetTimer();
         //animateDispatches.resetAnimate();
-
-        boardDispatches.resetBoard();
+        boardDispatches.resetState();
         boardDispatches.setDifficulty(difficulty);
 
         const {sudoku, solution} = SudokuUtils.generateSudoku(difficulty);
@@ -23,10 +22,11 @@ export const useBoardActions = (state, dispatch) => {
         for(let i = 0; i< sudoku.board.length; ++i) {
             if(sudoku.get(i) !== 0) {
                 initials.push({cell: i, number: sudoku.get(i)})
-            }
+            } 
         }
 
-        boardDispatches.initializeBoard(initials);
+        boardDispatches.setInitialized(true);
+        boardDispatches.setBoard(new Sudoku(initials));
 
         let solutionInitials = [];
         for(let i = 0; i<solution.board.length; ++i) {
@@ -34,24 +34,23 @@ export const useBoardActions = (state, dispatch) => {
         }
         boardDispatches.setSolution(new Sudoku(solutionInitials));
         timerDispatches.startTimer();
-            
-    
-
-    }
+    };
 
     const clearBoard = () => {
         let newBoard = state.board_reducer.board.copy();
         newBoard.clear();
         boardDispatches.setBoard(newBoard);
-    }
+
+    };
 
     const setCurrentCell = (currentCell) => {
         boardDispatches.setCurrentCell(currentCell);
-    }
+    };
 
     const handleNumberClick = (number, cell = state.board_reducer.currentCell) => {
         if(state.board_reducer.placeAllOfActive) {
             placeAllOf(number);
+            togglePlaceAllOfActive();
         } else if(!state.board_reducer.board.isImmutableCell(cell)) {
             if(state.board_reducer.writeCandidates) {
                 toggleCandidate(number, cell);
@@ -63,14 +62,13 @@ export const useBoardActions = (state, dispatch) => {
 
     // Find usages to switch to onNumberClicked
     const setNumber = (number, cell) => {
-
-
         let newBoard = state.board_reducer.board.copy();
         newBoard.set(cell, number);
 
+        let newInvalidCells = state.board_reducer.invalidCells.filter(invalidCell => invalidCell !== cell);
 
         boardDispatches.setBoard(newBoard);
-        boardDispatches.removeCellFromInvalid(cell);
+        boardDispatches.setInvalidCells(newInvalidCells);
 
         if(sudokuShouldBeValidated(newBoard))
             validateSudoku(newBoard)
@@ -78,11 +76,18 @@ export const useBoardActions = (state, dispatch) => {
 
     const sudokuShouldBeValidated = (sudoku) => sudoku.isFull() || state.board_reducer.onTheGoValidation;
 
+    const removeNumberFromCell = (cell) => {
+        handleNumberClick(0, cell);
+    };
+
     const validateSudoku = (board = state.board_reducer.board) => {
         let invalidCells = SudokuUtils.validate_sudoku(board);
         boardDispatches.setInvalidCells(invalidCells);
+
         if(invalidCells.length === 0 && board.isFull()) {
             timerDispatches.stopTimer();
+        } else if(!state.board_reducer.onTheGoValidation) {
+            addHelpUsage(HELP_TYPES.VALIDATION);
         }
     };
 
@@ -105,8 +110,8 @@ export const useBoardActions = (state, dispatch) => {
     };
 
     const toggleWriteCandidates = () => {
-        console.log("state from action",state)
-        boardDispatches.toggleWriteCandidates();
+        let newWriteCandidates = !state.board_reducer.writeCandidates;
+        boardDispatches.setWriteCandidates(newWriteCandidates);
     };
 
     const solveSudoku = () => {
@@ -116,39 +121,68 @@ export const useBoardActions = (state, dispatch) => {
 
     const placeAllOf = (number) => {
         let solution = state.board_reducer.solution.board;
-        let newBoard = state.board_reducer.board.copy();
+        let oldBoard = state.board_reducer.board;
+        let newBoard = oldBoard.copy();
 
+        let alreadyFilled = oldBoard.immutable.map(immutableCell => {
+            if(immutableCell.number === number)
+                return immutableCell.cell;
+        });
+
+        let nbrOfHints = 0;
         solution.forEach((numberInCell, cell) => {
-            if(numberInCell === number) {
-                newBoard.addInitial(cell, number)
+            if(numberInCell === number && !alreadyFilled.includes(cell)) {
+                newBoard.addInitial(cell, number);
+                nbrOfHints++;
             }
-        })
+        });
+
+        addHelpUsage(HELP_TYPES.HINT, nbrOfHints);
 
         boardDispatches.setBoard(newBoard)
     };
 
     const addHint = (cell = state.board_reducer.currentCell) => {
-        console.log("cell is: ", cell)
         let newBoard = state.board_reducer.board.copy();
-        newBoard.addInitial(cell, state.board_reducer.solution.get(cell));
-
+        let numberInCell = state.board_reducer.solution.get(cell);
+        newBoard.addInitial(cell, numberInCell);
         boardDispatches.setBoard(newBoard);
+        addHelpUsage(HELP_TYPES.HINT);
     };
 
     const toggleShowHelp = () => {
-        boardDispatches.toggleShowHelp();
+        let newShowHelp = !state.board_reducer.showHelp;
+        boardDispatches.setShowHelp(newShowHelp);
     };
 
     const toggleOnTheGoValidation = () => {
-        boardDispatches.toggleOnTheGoValidation();
+        let newOnTheGoValidation = !state.board_reducer.onTheGoValidation;
+        boardDispatches.setOnTheGoValidation(newOnTheGoValidation);
+        addHelpUsage(HELP_TYPES.ON_THE_GO_VALIDATION);
     };
 
     const toggleShowConnectedCells = () => {
-        boardDispatches.toggleShowConnectedCells();
+        let newShowConnectedCells = !state.board_reducer.showConnectedCells;
+        boardDispatches.setShowConnectedCells(newShowConnectedCells);
     };
 
     const togglePlaceAllOfActive = () => {
-        boardDispatches.togglePlaceAllOfActive();
+        let newPlaceAllOfActive = !state.board_reducer.placeAllOfActive;
+        boardDispatches.setPlaceAllOfActive(newPlaceAllOfActive);
+    };
+
+    const HELP_TYPES = {
+        VALIDATION: 'validation',
+        HINT: 'hint',
+        PLACE_ALL_OF: 'placeAllOf',
+        ON_THE_GO_VALIDATION: 'onTheGoValidation'
+    };
+
+    const addHelpUsage = (helpType, nbrOfHelps = 1) => {
+        let newHelpUsage = new Map(state.board_reducer.helpUsage);
+        newHelpUsage.set(helpType, newHelpUsage.get(helpType)+nbrOfHelps);
+
+        boardDispatches.setHelpUsage(newHelpUsage);
     };
 
     return {
@@ -157,6 +191,7 @@ export const useBoardActions = (state, dispatch) => {
         setCurrentCell,
         handleNumberClick,
         setNumber,
+        removeNumberFromCell,
         toggleWriteCandidates,
         validateSudoku,
         solveSudoku,

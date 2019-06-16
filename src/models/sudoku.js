@@ -1,7 +1,7 @@
 
 class Sudoku {
     board;
-    initials;
+    immutable;
 
     /**
      * Constructs a sudoku with the optional initial values
@@ -10,7 +10,7 @@ class Sudoku {
      */
     constructor(initials = []) {
         this.board = new Array(81).fill(0);
-        this.initials = initials;
+        this.immutable = initials;
         initials.forEach(initial => {
             this.board[initial.cell] = initial.number;
         })
@@ -45,7 +45,7 @@ class Sudoku {
     }
 
     getImmutableCells() {
-        return this.initials.map(initial => initial.cell);
+        return this.immutable.map(initial => initial.cell);
     }
 
     isImmutableCell(cell) {
@@ -54,19 +54,19 @@ class Sudoku {
 
     addInitial(cell, number) {
         this.set(cell, number);
-        this.initials.push({cell: cell, number: number})
+        this.immutable.push({cell: cell, number: number})
     }
 
     clear() {
         this.board = new Array(81).fill(0);
-        this.initials.forEach(initial => {
+        this.immutable.forEach(initial => {
             this.board[initial.cell] = initial.number;
         })
     }
 
     copy() {
         let newSudoku = new Sudoku();
-        newSudoku.initials = this.initials.slice();
+        newSudoku.immutable = this.immutable.slice();
         newSudoku.board = this.board.slice();
         return newSudoku;
     }

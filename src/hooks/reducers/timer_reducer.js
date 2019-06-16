@@ -22,7 +22,6 @@ const timer_reducer = (state = timerInitialState, action) => {
             })
         }
         case types.TICK_TIMER: {
-            console.log("state  in ticktimer", state);
             return ({
                 ...state,
                 timeElapsed: state.timeElapsed+1

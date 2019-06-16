@@ -66,7 +66,7 @@ const KeyboardEventListener = (props) => {
         else if(keyIsDeleting(keyCode))
             handleDeletingKey();
         else if(keyIsFunctional(keyCode))
-            handleFunctionalKey();
+            handleFunctionalKey(keyCode);
         }
     };
 
@@ -100,9 +100,15 @@ const KeyboardEventListener = (props) => {
         
     };
 
-    const handleDeletingKey = () => actions.board.setNumber(0, state.currentCell);
+    const handleDeletingKey = () => actions.board.removeNumberFromCell(state.currentCell);
 
-    const handleFunctionalKey = () => {console.log("functional")};
+    const handleFunctionalKey = (keyCode) => {
+        switch (keyCode) {
+            case FUNCTIONAL_KEYS.M:
+                actions.board.toggleWriteCandidates();
+                break;
+        }
+    };
 
     return(
         <React.Fragment>
