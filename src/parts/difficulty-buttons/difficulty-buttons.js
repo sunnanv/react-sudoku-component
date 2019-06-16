@@ -8,11 +8,11 @@ const DifficultyButtons = (props) => {
 
     const {
         difficulty
-    } = state.board_reducer;
+    } = state.board;
 
     const {
         generateSudoku
-    } = actions.board;
+    } = actions;
 
     
     return (

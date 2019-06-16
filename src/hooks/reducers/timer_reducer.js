@@ -3,30 +3,26 @@ import {timerInitialState} from "../initial_states";
 
 const timer_reducer = (state = timerInitialState, action) => {
     switch(action.type) {
-        case types.RESET_TIMER: {
+        case types.RESET_TIMER_STATE: {
             return ({
                 ...timerInitialState
             })
         }
-        case types.START_TIMER: {
-            return({
-                ...state,
-                currentTime: 0,
-                timerActive: true
-            })
-        }
-        case types.STOP_TIMER: {
+        
+        case types.SET_TIMER_ACTIVE: {
             return ({
                 ...state,
-                timerActive: false
+                timerActive: action.payload.timerActive
             })
         }
-        case types.TICK_TIMER: {
+
+        case types.SET_TIME_ELAPSED: {
             return ({
                 ...state,
-                timeElapsed: state.timeElapsed+1
+                timeElapsed: action.payload.timeElapsed
             })
         }
+
         default: {
             return state;
         }

@@ -8,12 +8,12 @@ const NumberButtons = (props) => {
 
     const {
         writeCandidates
-    } = state.board_reducer;
+    } = state.board;
 
     const {
         toggleWriteCandidates,
         handleNumberClick
-    } = actions.board;
+    } = actions;
 
     let buttons = [];
     for (let i = 0; i < 10; ++i) {
@@ -39,7 +39,7 @@ const NumberButtons = (props) => {
     );
 
 
-    if(state.board_reducer.isInitialized)
+    if(state.board.isInitialized)
         return (
             <div className="number-container">
                 {buttons}

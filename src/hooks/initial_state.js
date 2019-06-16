@@ -1,11 +1,13 @@
 import {
     boardInitialState,
-    timerInitialState
+    timerInitialState,
+    helpInitialState
 } from './initial_states';
 
 const initialState = {
-    board_reducer: boardInitialState,
-    timer_reducer: timerInitialState
+    board: boardInitialState,
+    timer: timerInitialState,
+    help: helpInitialState
 }
 
 export default initialState;

@@ -11,7 +11,7 @@ const ControlButtons = (props) => {
         onTheGoValidation,
         showConnectedCells,
         placeAllOfActive
-    } = state.board_reducer;
+    } = state.help;
 
     const {
         validateSudoku,//
@@ -22,12 +22,12 @@ const ControlButtons = (props) => {
         toggleOnTheGoValidation,
         toggleShowConnectedCells,
         togglePlaceAllOfActive
-    } = actions.board;
+    } = actions;
 
     let slideDown = "controll-button-container open";
     let normalClass = "controll-button-container";
 
-    if(state.board_reducer.isInitialized)
+    if(state.board.isInitialized)
         return (
             <div className={"show-help-container"}>
             <button className="show-help-button" onClick={toggleShowHelp}>{showHelp? 'Hide Help':'Show Help'}</button>

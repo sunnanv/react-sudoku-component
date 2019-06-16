@@ -1,26 +1,28 @@
 import * as types from '../action_types';
 
-export const useTimerDispatches = (state, dispatch) => {
-    const resetTimer = () => dispatch({
-        type: types.RESET_TIMER
+export const useTimerDispatches = (dispatch) => {
+
+    const resetTimerState = () => dispatch({
+        type: types.RESET_TIMER_STATE
     })
 
-    const startTimer = () => dispatch({
-        type: types.START_TIMER
-    });
+    const setTimerActive = (timerActive) => dispatch({
+        type: types.SET_TIMER_ACTIVE,
+        payload: {
+            timerActive
+        }
+    })
 
-    const stopTimer = () => dispatch({
-        type: types.START_TIMER
-    });
+    const setTimeElapsed = (timeElapsed) => dispatch({
+        type: types.SET_TIME_ELAPSED,
+        payload: {
+            timeElapsed
+        }
+    })
 
-    const tickTimer = () => dispatch({
-        type: types.TICK_TIMER
-    });
-    
     return {
-        resetTimer,
-        startTimer,
-        stopTimer,
-        tickTimer
+        resetTimerState,
+        setTimerActive,
+        setTimeElapsed
     }
 };

@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useEffect } from "react";
-import { useActions } from "./actions";
+import { useActions } from "./actions/actions";
 import reducers from './reducers';
 import initialState from './initial_state'
 
@@ -12,13 +12,13 @@ const StoreProvider = ({ children }) => {
     const actions = useActions(state, dispatch);   
 
     // Log new state
-    useEffect(
+  /*  useEffect(
         () => {
             console.log({ newState: state });
         },
         [state]
     );
-
+*/
     // Render state, dispatch and special case actions
     return (
         <StoreContext.Provider value={{ state, dispatch, actions }}>

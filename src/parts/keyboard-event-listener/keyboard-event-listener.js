@@ -81,7 +81,7 @@ const KeyboardEventListener = (props) => {
     const keyIsFunctional = (keyCode) => Object.values(FUNCTIONAL_KEYS).includes(keyCode);
 
 
-    const handleNumericKey = (number) => actions.board.handleNumberClick(number);
+    const handleNumericKey = (number) => actions.handleNumberClick(number);
 
     const directionValues = {
         37: -1,
@@ -91,21 +91,21 @@ const KeyboardEventListener = (props) => {
     };
 
     const handleDirectionalKey = (directionKeyCode) => {
-        let newCell = state.board_reducer.currentCell + directionValues[directionKeyCode];
+        let newCell = state.board.currentCell + directionValues[directionKeyCode];
 
         if(newCell < 0)
             newCell += 81;
 
-        actions.board.setCurrentCell(newCell % 81)
+        actions.setCurrentCell(newCell % 81)
         
     };
 
-    const handleDeletingKey = () => actions.board.removeNumberFromCell(state.currentCell);
+    const handleDeletingKey = () => actions.removeNumberFromCell(state.currentCell);
 
     const handleFunctionalKey = (keyCode) => {
         switch (keyCode) {
             case FUNCTIONAL_KEYS.M:
-                actions.board.toggleWriteCandidates();
+                actions.toggleWriteCandidates();
                 break;
         }
     };

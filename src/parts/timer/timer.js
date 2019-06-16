@@ -16,13 +16,13 @@ const Timer = (props) => {
     });
 
     const tickTimer = () => {
-        if(state.timer_reducer.timerActive)
-            actions.timer.tickTimer();
+        if(state.timer.timerActive)
+            actions.tickTimer();
     };
 
     const {
         timeElapsed
-    } = state.timer_reducer;
+    } = state.timer;
 
     const formatTime = () => {
         let time = timeElapsed;

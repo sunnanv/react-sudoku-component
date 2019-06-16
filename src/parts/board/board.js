@@ -5,20 +5,26 @@ import PropTypes from 'prop-types';
 import * as SudokuUtils from '../../utils/sudoku_utils'
 
 export const Board = (props) => {
+    
     const { state, dispatch, actions } = useContext(StoreContext);
+    
+
     const {
         board,
         currentCell,
-        invalidCells,
         candidates
-    } = state.board_reducer;
+    } = state.board;
+
+    const {
+        invalidCells,
+    } = state.help;
     
     const solveAnimate = []
 
-    const generateASudoku = () => actions.board.generateSudoku('easy');
+    const generateASudoku = () => actions.generateSudoku('easy');
 
-    const onCellClicked = (cell) => actions.board.setCurrentCell(cell);
-    const connectedCells = state.board_reducer.showConnectedCells? SudokuUtils.getConnectedCells(state.board_reducer.currentCell):[]
+    const onCellClicked = (cell) => actions.setCurrentCell(cell);
+    const connectedCells = state.help.showConnectedCells? SudokuUtils.getConnectedCells(state.board.currentCell):[]
     
     const NBR_OF_ROWS = 9;
     const EMPTY_CELL = 0;
@@ -56,7 +62,7 @@ export const Board = (props) => {
             return ''
     }
 
-    if(state.board_reducer.isInitialized)
+    if(state.board.isInitialized)
         return (
             <React.Fragment>
                 <GridTable
