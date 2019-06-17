@@ -16,7 +16,7 @@
 
 @media (max-width: 500px) {
     .number-container {
-        min-width: 100vw;
+        min-width: 95vw;
         min-height: 10vw;
     }
 }

@@ -55,7 +55,7 @@ export const useActions = (state, dispatch) => {
             placeAllOf(number);
             togglePlaceAllOfActive();
         } else if(!state.board.board.isImmutableCell(cell)) {
-            if(state.help.writeCandidates) {
+            if(state.board.writeCandidates) {
                 toggleCandidate(number, cell);
             } else {
                 setNumber(number, cell);
@@ -118,8 +118,25 @@ export const useActions = (state, dispatch) => {
     };
 
     const solveSudoku = () => {
-        boardDispatches.setBoard(state.help.solution);
+        const CELLS_IN_SUDOKU = 81;
+        console.log(state);
+        const { solution, hintedCells } = state.help;
+        const { board } = state.board;
+
+
+        let newHintedCells = hintedCells.slice();
+
+        for(let cell = 0; cell<CELLS_IN_SUDOKU; ++cell) {
+            if(!board.isImmutableCell(cell) && board.get(cell) !== solution.get(cell)) {
+                newHintedCells.push(cell);
+            }
+        }
+    
+
+
+        boardDispatches.setBoard(solution.copy());
         timerDispatches.setTimerActive(false);
+        helpDispatches.setHintedCells(newHintedCells);
     };
 
     const placeAllOf = (number) => {

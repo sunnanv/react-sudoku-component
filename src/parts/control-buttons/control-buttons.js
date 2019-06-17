@@ -65,25 +65,5 @@ const ControlButton = (props) => {
         </button>
     )
 }
-/*
-ControlButton.propTypes = {
-    onClick: PropTypes.func,
-    isActive: PropTypes.bool
-}
 
-ControlButtonsView.propTypes = {
-    onValidateSudoku: PropTypes.func.isRequired,
-    onClearBoard: PropTypes.func.isRequired,
-    onSolveSudoku: PropTypes.func.isRequired,
-    onAddHint: PropTypes.func.isRequired,
-    toggleShowHelp: PropTypes.func.isRequired,
-    toggleOnTheGoValidation: PropTypes.func.isRequired,
-    toggleShowConnectedCells: PropTypes.func.isRequired,
-    togglePlaceAllOfActive: PropTypes.func.isRequired,
-    showHelp: PropTypes.bool.isRequired,
-    onTheGoValidation: PropTypes.bool.isRequired,
-    showConnectedCells: PropTypes.bool.isRequired,
-    placeAllOfActive: PropTypes.bool.isRequired
-
-};*/
 export default ControlButtons;

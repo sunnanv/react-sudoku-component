@@ -10,7 +10,7 @@ import KeyboardEventListener from './parts/keyboard-event-listener/keyboard-even
 import { StoreProvider } from "./hooks/StoreContext";
 
 const Sudoku = (props) => (
-    <StoreProvider>
+    <StoreProvider style={{textAlign: 'center'}}>
         <KeyboardEventListener active={props.keyboardActive}>
             <Timer />
             <DifficultyButtons />

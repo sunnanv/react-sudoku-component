@@ -34,26 +34,32 @@
 .candidates-grid {
     height: 100%;
     width: 100%;
-    border-collapse: collapse   
+    border-collapse: collapse;
+    text-align: center; 
+    
+    font-size: calc(1em/2);
 }
 
 .candidates-grid td {
-    font-size: 60%;
     font-weight: bold;
     border: 0 0 0 0;
-    height: calc(100%/9);
-    width: calc(100%/9);
+    width: calc(100%/3);
 }
 
 .candidates-grid tr {
     border: 0 0 0 0;
+    
+    height: calc(100%/3);
 }
 
 
 @media (max-width: 500px) {
     .sudoku-board {
-        min-height: 100vw;
-        min-width: 100vw;
+        min-height: 94vw;
+        min-width: 94vw;
+        
+        max-height: 94vw;
+        max-width: 94vw;
     }
 
 

@@ -58,6 +58,6 @@
 
 @media (max-width: 500px) {
     .controll-button-container {
-        min-width: 100vw;
+        min-width: 95vw;
     }
 }
