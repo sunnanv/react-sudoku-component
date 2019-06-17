@@ -126,6 +126,7 @@ export const useActions = (state, dispatch) => {
         let solution = state.help.solution.board;
         let oldBoard = state.board.board;
         let newBoard = oldBoard.copy();
+        let newHintedCells = state.help.hintedCells.slice();
 
         let alreadyFilled = oldBoard.immutable.map(immutableCell => {
             if(immutableCell.number === number)
@@ -136,21 +137,25 @@ export const useActions = (state, dispatch) => {
         solution.forEach((numberInCell, cell) => {
             if(numberInCell === number && !alreadyFilled.includes(cell)) {
                 newBoard.addInitial(cell, number);
+                newHintedCells.push(cell);
                 nbrOfHints++;
             }
         });
 
         addHelpUsage(HELP_TYPES.HINT, nbrOfHints);
-
-        boardDispatches.setBoard(newBoard)
+        boardDispatches.setBoard(newBoard);
+        helpDispatches.setHintedCells(newHintedCells);
     };
 
     const addHint = (cell = state.board.currentCell) => {
         let newBoard = state.board.board.copy();
+        let newHintedCells = state.help.hintedCells.slice();
         let numberInCell = state.help.solution.get(cell);
         newBoard.addInitial(cell, numberInCell);
+        newHintedCells.push(cell);
         boardDispatches.setBoard(newBoard);
         addHelpUsage(HELP_TYPES.HINT);
+        helpDispatches.setHintedCells(newHintedCells);
     };
 
     const toggleShowHelp = () => {

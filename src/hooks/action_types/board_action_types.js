@@ -7,7 +7,3 @@ export const SET_CURRENT_CELL = "SET_CURRENT_CELL";
 export const SET_WRITE_CANDIDATES = "SET_WRITE_CANDIDATES";
 export const SET_CANDIDATES = "SET_CANDIDATES";
 
-
-export const HELP_TYPE_HINT = 'hint', HELP_TYPE_VALIDATION = 'validation',
-             HELP_TYPE_PLACE_ALL_OF = 'placeAllOf', HELP_TYPE_ON_THE_GO_VALIDATION = 'onTheGoValidation';
-

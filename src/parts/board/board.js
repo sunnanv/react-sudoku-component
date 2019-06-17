@@ -17,6 +17,7 @@ export const Board = (props) => {
 
     const {
         invalidCells,
+        hintedCells
     } = state.help;
     
     const solveAnimate = []
@@ -44,13 +45,16 @@ export const Board = (props) => {
     }
 
     const isCandidates = (cell) => (board.get(cell) === EMPTY_CELL && candidates.get(cell));
+    const isHinted = (cell) => (hintedCells.includes(cell));
     const isImmutable = (cell) => (board.getImmutableCells().includes(cell));
     const isInvalid = (cell) => (invalidCells.includes(cell));
-    const isNumber = (cell) => (board.get(cell) !== EMPTY_CELL)
+    const isNumber = (cell) => (board.get(cell) !== EMPTY_CELL);
 
     const getDataInCell = (cell) => {
         let number = board.get(cell);
-        if (isImmutable(cell))
+        if(isHinted(cell))
+            return <b style={{color: 'blue'}}>{number}</b>
+        else if (isImmutable(cell))
             return <b>{number}</b>
         else if (isInvalid(cell))
             return <b style={{color: 'red'}}>{number}</b>

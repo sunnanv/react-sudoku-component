@@ -9,4 +9,4 @@ export const helpInitialState = {
     showConnectedCells: true,
     placeAllOfActive: false,
     hintedCells: []
-}
+};

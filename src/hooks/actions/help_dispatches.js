@@ -3,7 +3,7 @@ import * as types from "../action_types";
 export const useHelpDispatches = (dispatch) => {
     const resetHelpState = () => dispatch({
         type: types.RESET_HELP_STATE
-    })
+    });
 
     const setSolution = (solution) => dispatch({
         type: types.SET_SOLUTION,
@@ -53,6 +53,13 @@ export const useHelpDispatches = (dispatch) => {
             placeAllOfActive
         }
     });
+
+    const setHintedCells = (hintedCells) => dispatch({
+        type: types.SET_HINTED_CELLS,
+        payload: {
+            hintedCells
+        }
+    });
     
     return {
         resetHelpState,
@@ -63,5 +70,6 @@ export const useHelpDispatches = (dispatch) => {
         setOnTheGoValidation,
         setShowConnectedCells,
         setPlaceAllOfActive,
+        setHintedCells
     }
-}
+};
