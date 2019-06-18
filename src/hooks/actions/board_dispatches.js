@@ -55,6 +55,13 @@ export const useBoardDispatches = (dispatch) => {
         }
     });
 
+    const setIsSolved = (isSolved) => dispatch({
+        type: types.SET_IS_SOLVED,
+        payload: {
+            isSolved
+        }
+    })
+
     return {
         resetState,
         setLoading,
@@ -64,5 +71,6 @@ export const useBoardDispatches = (dispatch) => {
         setCurrentCell,
         setWriteCandidates,
         setCandidates,
+        setIsSolved,
     }
 };

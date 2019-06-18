@@ -2,8 +2,6 @@ import {helpInitialState} from '../initial_states/help_initial_state';
 import * as types from '../action_types';
 
 const help_reducer = (state = helpInitialState, action) => {
-    console.log("state is: ", state);
-    console.log("initialState is: ", helpInitialState);
     switch (action.type) {
         case types.RESET_HELP_STATE:
             return {

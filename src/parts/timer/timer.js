@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import './timer-styles.css';
 
 const Timer = (props) => {
+    if(!props.show)
+        return <></>
     const { state, dispatch, actions } = useContext(StoreContext);
 
     let interv = -100

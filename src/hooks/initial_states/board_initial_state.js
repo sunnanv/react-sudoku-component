@@ -9,4 +9,5 @@ export const boardInitialState = {
     currentCell: 0,
     writeCandidates: false,
     candidates: new Map(),
+    isSolved: false
 };

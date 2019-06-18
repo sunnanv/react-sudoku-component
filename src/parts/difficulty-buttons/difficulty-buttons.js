@@ -4,6 +4,8 @@ import './difficulty-buttons-styles.css';
 
 
 const DifficultyButtons = (props) => {
+    if(props.showDifficultyButtons === false)
+        return <></>
     const { state, dispatch, actions } = useContext(StoreContext);
 
     const {

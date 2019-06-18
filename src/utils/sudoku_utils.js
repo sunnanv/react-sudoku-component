@@ -340,8 +340,7 @@ export class SudokuUtils {
      * 
      * @returns {{sudoku: Sudoku, solution: Sudoku}} the generated sudoku and its solution
      */
-    export const generateSudoku = (difficulty) => {
-        console.log(4);        
+    export const generateSudoku = (difficulty) => { 
         let solved;
         let solvedSudoku;
         do {
@@ -361,7 +360,6 @@ export class SudokuUtils {
         } while(solved !== true);
         
         let sudoku = createSudokuFromSolvedSudoku(solvedSudoku, difficulty);
-        console.log(10);
 
         return {sudoku: sudoku, solution: solvedSudoku}
     }
