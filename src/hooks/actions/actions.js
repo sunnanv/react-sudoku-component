@@ -125,16 +125,16 @@ export const useActions = (state, dispatch) => {
 
 
         let newHintedCells = hintedCells.slice();
+        let newBoard = board.copy();
 
         for(let cell = 0; cell<CELLS_IN_SUDOKU; ++cell) {
             if(!board.isImmutableCell(cell) && board.get(cell) !== solution.get(cell)) {
+                newBoard.addInitial(cell, solution.get(cell));
                 newHintedCells.push(cell);
             }
         }
-    
 
-
-        boardDispatches.setBoard(solution.copy());
+        boardDispatches.setBoard(newBoard);
         timerDispatches.setTimerActive(false);
         helpDispatches.setHintedCells(newHintedCells);
     };
