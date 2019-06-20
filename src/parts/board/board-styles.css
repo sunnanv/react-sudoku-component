@@ -1,12 +1,6 @@
 .sudoku-board {
     border: 3px solid black;
     margin: 5px auto;
-    height: 45vw;
-    width: 45vw;
-    min-height: 70vmin;
-    min-width: 70vmin;
-    max-width: 70vmin;
-    max-height: 70vmin;
     border-collapse: collapse;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     text-align: center;
@@ -35,13 +29,12 @@
     height: 100%;
     width: 100%;
     border-collapse: collapse;
-    text-align: center; 
-    
-    font-size: calc(1em/2);
+    text-align: center;
+
+    font-size: calc(1rem);
 }
 
 .candidates-grid td {
-    font-weight: bold;
     border: 0 0 0 0;
     width: calc(100%/3);
 }

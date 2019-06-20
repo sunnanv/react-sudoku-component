@@ -33,7 +33,7 @@ const Sudoku = (props) => {
             <KeyboardEventListener active={useKeyboardListener}>
                 <Timer show={showTimer} />
                 <DifficultyButtons show={showDifficultyButtons} defaultDifficulty={defaultDifficulty}/>
-                <Board />
+                <Board size={size} />
                 <NumberButtons show={showNumberButtons} />
                 <ControlButtons show={showHelpButtons} />
             </KeyboardEventListener>
@@ -48,8 +48,9 @@ Sudoku.defaultProps = {
     allowCandidates: true,
     showNumberButtons: true,
     showHelpButtons: true,
-    onSolved: () => {}
-}
+    onSolved: () => {},
+    size: '70vmin'
+};
 
 
 

@@ -3,7 +3,7 @@ import { render} from 'react-dom';
 import Sudoku from '../../src';
 const App = () => (
     <>
-    <Sudoku showDifficultyButtons={false} />
+    <Sudoku defaultDifficulty={'easy'} />
     </>
 );
 render(<App />, document.getElementById("root"));

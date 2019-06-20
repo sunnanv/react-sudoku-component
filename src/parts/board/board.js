@@ -7,7 +7,9 @@ import * as SudokuUtils from '../../utils/sudoku_utils'
 export const Board = (props) => {
     
     const { state, dispatch, actions } = useContext(StoreContext);
-    
+    const {
+        size
+    } = props;
 
     const {
         board,
@@ -70,6 +72,7 @@ export const Board = (props) => {
         return (
             <React.Fragment>
                 <GridTable
+                    size={size}
                     tableClass={"sudoku-board"}
                     rowClass={"sudoku-row"}
                     cellClass={"sudoku-cell"}
@@ -107,6 +110,7 @@ const CandidatesGrid = (props) => {
 const GridTable = (props) => {
 
     const {
+        size,
         tableClass,
         rowClass,
         cellClass,
@@ -114,7 +118,7 @@ const GridTable = (props) => {
         onCellClicked,
         cellStyle,
         dataParser
-    } = props
+    } = props;
 
     const renderCellsInRow = (row) => {
         let cells = [];
@@ -154,7 +158,8 @@ const GridTable = (props) => {
     }
 
     return (
-        <table className={tableClass}>
+        <table className={tableClass} style={{minHeight: size, minWidth: size,
+                                              maxHeight: size, maxWidth: size}}>
             {renderRows()}
         </table>
     )
