@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import './styles.css';
-import Board from './parts/board/board';
-import ControlButtons from './parts/control-buttons/control-buttons';
-import DifficultyButtons from './parts/difficulty-buttons/difficulty-buttons';
-import NumberButtons from './parts/number-buttons/number-buttons';
-import Timer from './parts/timer/timer';
-import KeyboardEventListener from './parts/keyboard-event-listener/keyboard-event-listener';
+
+import {
+    Board,
+    ControlButtons,
+    DifficultyButtons,
+    NumberButtons,
+    Timer,
+    KeyboardEventListener
+} from './parts';
 
 import { StoreProvider } from "./hooks/StoreContext";
 
@@ -15,7 +18,7 @@ const Sudoku = (props) => {
         useKeyboardListener,
         showTimer,
         showDifficultyButtons,
-        useDifficulty,
+        defaultDifficulty,
         allowCandidates,
         showNumberButtons,
         showHelpButtons,
@@ -28,11 +31,11 @@ const Sudoku = (props) => {
     return (
         <StoreProvider style={{textAlign: 'center'}}>
             <KeyboardEventListener active={useKeyboardListener}>
-                <Timer show={showTimer}/>
-                <DifficultyButtons show={showDifficultyButtons} />
+                <Timer show={showTimer} />
+                <DifficultyButtons show={showDifficultyButtons} defaultDifficulty={defaultDifficulty}/>
                 <Board />
-                <NumberButtons />
-                <ControlButtons />
+                <NumberButtons show={showNumberButtons} />
+                <ControlButtons show={showHelpButtons} />
             </KeyboardEventListener>
         </StoreProvider>
     )
@@ -54,7 +57,7 @@ Sudoku.propTypes = {
     useKeyboardListener: PropTypes.bool,
     showTimer: PropTypes.bool,
     showDifficultyButtons: PropTypes.bool,
-    useDifficulty: PropTypes.oneOf(['easy', 'medium', 'hard']),
+    defaultDifficulty: PropTypes.oneOf(['easy', 'medium', 'hard']),
     allowCandidates: PropTypes.bool,
     showNumberButtons: PropTypes.bool,
     showHelpButtons: PropTypes.bool,

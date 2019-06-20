@@ -4,6 +4,9 @@ import './number-buttons-styles.css'
 import PropTypes from 'prop-types'
 
 const NumberButtons = (props) => {
+    if(!props.show)
+        return <></>
+
     const { state, dispatch, actions } = useContext(StoreContext);
 
     const {

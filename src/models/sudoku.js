@@ -74,6 +74,10 @@ class Sudoku {
     isFull() {
         return !this.board.includes(0)
     }
+
+    isEmpty() {
+        return !this.board.some(cell => cell !== 0)
+    }
 }
 
 export default Sudoku;
