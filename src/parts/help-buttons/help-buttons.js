@@ -1,10 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { StoreContext } from "../../hooks/StoreContext"
-import './control-buttons-styles.css'
+import './help-buttons-styles.css'
 import PropTypes from 'prop-types'
 
-const ControlButtons = (props) => {
+const HelpButtons = (props) => {
     const { state, dispatch, actions } = useContext(StoreContext);
+
+    const {
+        size
+    } = props;
 
     const {
         showHelp,
@@ -24,22 +28,22 @@ const ControlButtons = (props) => {
         togglePlaceAllOfActive
     } = actions;
 
-    let slideDown = "controll-button-container open";
-    let normalClass = "controll-button-container";
+    let slideDown = "help-button-container open";
+    let normalClass = "help-button-container";
 
     if(state.board.isInitialized)
         return (
             <div className={"show-help-container"}>
             <button className="show-help-button" onClick={toggleShowHelp}>{showHelp? 'Hide Help':'Show Help'}</button>
             <div className={showHelp? slideDown:normalClass}
-                style={showHelp? {visibility: 'visible'} : {visibility: 'hidden'}}>
-                <ControlButton onClick={clearBoard}>Clear</ControlButton>
-                <ControlButton onClick={solveSudoku}>Solve</ControlButton>
-                <ControlButton onClick={() => validateSudoku()}>Validate</ControlButton>
-                <ControlButton onClick={() => addHint()}>Hint</ControlButton>
-                <ControlButton onClick={togglePlaceAllOfActive} isActive={placeAllOfActive}>Hint all of #</ControlButton>
-                <ControlButton onClick={toggleOnTheGoValidation} isActive={onTheGoValidation}>Validate OnTheGo</ControlButton>
-                <ControlButton onClick={toggleShowConnectedCells} isActive={showConnectedCells}>Show connected cells</ControlButton>
+                style={showHelp? {visibility: 'visible', width: size } : {visibility: 'hidden', width: size}}>
+                <HelpButton onClick={clearBoard}>Clear</HelpButton>
+                <HelpButton onClick={solveSudoku}>Solve</HelpButton>
+                <HelpButton onClick={() => validateSudoku()}>Validate</HelpButton>
+                <HelpButton onClick={() => addHint()}>Hint</HelpButton>
+                <HelpButton onClick={togglePlaceAllOfActive} isActive={placeAllOfActive}>Hint all of #</HelpButton>
+                <HelpButton onClick={toggleOnTheGoValidation} isActive={onTheGoValidation}>Validate OnTheGo</HelpButton>
+                <HelpButton onClick={toggleShowConnectedCells} isActive={showConnectedCells}>Show connected cells</HelpButton>
             </div>
             </div>
         )
@@ -49,7 +53,7 @@ const ControlButtons = (props) => {
         )
 };
 
-const ControlButton = (props) => {
+const HelpButton = (props) => {
     const {
         onClick,
         isActive,
@@ -58,7 +62,7 @@ const ControlButton = (props) => {
 
     return (
         <button 
-            className={"controll-button"} 
+            className={"help-button"}
             onClick={onClick} 
             style={isActive? {background: 'red'} : null}>
                 {children}
@@ -66,4 +70,4 @@ const ControlButton = (props) => {
     )
 }
 
-export default ControlButtons;
+export default HelpButtons;

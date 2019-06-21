@@ -10,11 +10,10 @@
     outline: none;
 }
 
-.controll-button-container {
+.help-button-container {
     margin: 5px auto 25px;
-    width: 45vw;
-    min-width: 500px;
-    max-width: 500px;
+    min-width: 250px;
+    max-width: 90vw;
     text-align: center;
 }
 
@@ -44,7 +43,7 @@
     }
 }
 
-.controll-button {
+.help-button {
     border: 2px solid red;
     background: none;
     height: 5vh;
@@ -52,12 +51,12 @@
     outline: none;
 }
 
-.controll-button:active {
+.help-button:active {
     background: red;
 }
 
 @media (max-width: 500px) {
-    .controll-button-container {
+    .help-button-container {
         min-width: 95vw;
     }
 }

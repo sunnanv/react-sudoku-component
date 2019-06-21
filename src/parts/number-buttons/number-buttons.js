@@ -10,6 +10,10 @@ const NumberButtons = (props) => {
     const { state, dispatch, actions } = useContext(StoreContext);
 
     const {
+        size
+    } = props;
+
+    const {
         writeCandidates
     } = state.board;
 
@@ -44,7 +48,7 @@ const NumberButtons = (props) => {
 
     if(state.board.isInitialized)
         return (
-            <div className="number-container">
+            <div className="number-container" style={{width: size, height: `calc(${size}/11)`}}>
                 {buttons}
             </div>
         )

@@ -8,7 +8,8 @@ const DifficultyButtons = (props) => {
 
     const {
         show,
-        defaultDifficulty
+        defaultDifficulty,
+        size
     } = props;
 
     
@@ -32,7 +33,7 @@ const DifficultyButtons = (props) => {
     }
     return (
         <React.Fragment>
-            <div className="button-container">
+            <div className="button-container" style={{width: size}}>
                 <DifficultyButton difficultyForButton={'easy'} onClick={generateSudoku} difficulty={difficulty} />
                 <DifficultyButton difficultyForButton={'medium'} onClick={generateSudoku} difficulty={difficulty} />
                 <DifficultyButton difficultyForButton={'hard'} onClick={generateSudoku} difficulty={difficulty} />

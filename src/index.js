@@ -4,7 +4,7 @@ import './styles.css';
 
 import {
     Board,
-    ControlButtons,
+    HelpButtons,
     DifficultyButtons,
     NumberButtons,
     Timer,
@@ -32,10 +32,10 @@ const Sudoku = (props) => {
         <StoreProvider style={{textAlign: 'center'}}>
             <KeyboardEventListener active={useKeyboardListener}>
                 <Timer show={showTimer} />
-                <DifficultyButtons show={showDifficultyButtons} defaultDifficulty={defaultDifficulty}/>
+                <DifficultyButtons show={showDifficultyButtons} defaultDifficulty={defaultDifficulty} size={size}/>
                 <Board size={size} />
-                <NumberButtons show={showNumberButtons} />
-                <ControlButtons show={showHelpButtons} />
+                <NumberButtons show={showNumberButtons} size={size} />
+                <HelpButtons show={showHelpButtons} size={size} />
             </KeyboardEventListener>
         </StoreProvider>
     )

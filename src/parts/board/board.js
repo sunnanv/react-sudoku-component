@@ -158,8 +158,7 @@ const GridTable = (props) => {
     }
 
     return (
-        <table className={tableClass} style={{minHeight: size, minWidth: size,
-                                              maxHeight: size, maxWidth: size}}>
+        <table className={tableClass} style={{height: size, width: size}}>
             {renderRows()}
         </table>
     )
