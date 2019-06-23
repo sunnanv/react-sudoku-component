@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import './styles.css';
 
 import {
     Board,
@@ -19,12 +18,12 @@ const Sudoku = (props) => {
         showTimer,
         showDifficultyButtons,
         defaultDifficulty,
-        allowCandidates,
         showNumberButtons,
         showHelpButtons,
         size,
         allowedHelps,
-        onSolved
+        onSolved,
+        disabledHelps
     } = props;
 
     return (
@@ -34,7 +33,7 @@ const Sudoku = (props) => {
                 <DifficultyButtons show={showDifficultyButtons} defaultDifficulty={defaultDifficulty} size={size}/>
                 <Board size={size} />
                 <NumberButtons show={showNumberButtons} size={size} />
-                <HelpButtons show={showHelpButtons} size={size} />
+                <HelpButtons show={showHelpButtons} size={size} allowedHelps={allowedHelps} disabledHelps={disabledHelps} />
             </KeyboardEventListener>
         </StoreProvider>
     )
@@ -48,9 +47,9 @@ Sudoku.defaultProps = {
     showNumberButtons: true,
     showHelpButtons: true,
     onSolved: (test) => {console.log("TESTAR", test)},
-    size: '70vmin'
+    size: '70vmin',
+    allowedHelps: ['solve', 'validate','hint','hintAllOf','validateOnTheGo'],
 };
-
 
 
 Sudoku.propTypes = {
@@ -63,7 +62,8 @@ Sudoku.propTypes = {
     showHelpButtons: PropTypes.bool,
     size: PropTypes.string,
     allowedHelps: PropTypes.array,
-    onSolved: PropTypes.func
+    onSolved: PropTypes.func,
+    disabledHelps: PropTypes.array
 }
 
 export default Sudoku

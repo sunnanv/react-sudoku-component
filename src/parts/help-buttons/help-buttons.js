@@ -7,7 +7,10 @@ const HelpButtons = (props) => {
     const { state, dispatch, actions } = useContext(StoreContext);
 
     const {
-        size
+        size,
+        show,
+        allowedHelps,
+        disabledHelps
     } = props;
 
     const {
@@ -18,8 +21,8 @@ const HelpButtons = (props) => {
     } = state.help;
 
     const {
-        validateSudoku,//
-        clearBoard,//
+        validateSudoku,
+        clearBoard,
         solveSudoku,
         addHint,
         toggleShowHelp,
@@ -28,23 +31,44 @@ const HelpButtons = (props) => {
         togglePlaceAllOfActive
     } = actions;
 
+    const helpButtons = [
+        {key: 'solve',              button: <HelpButton key={'solve'} onClick={solveSudoku}>Solve</HelpButton>},
+        {key: 'validate',           button: <HelpButton key={'validate'} onClick={() => validateSudoku()}>Validate</HelpButton>},
+        {key: 'hint',               button: <HelpButton key={'hint'} onClick={() => addHint()}>Hint</HelpButton>},
+        {key: 'hintAllOf',          button: <HelpButton key={'hintAllOf'} onClick={togglePlaceAllOfActive} isActive={placeAllOfActive}>Hint all of #</HelpButton>},
+        {key: 'validateOnTheGo',    button: <HelpButton key={'validateOnTheGo'} onClick={toggleOnTheGoValidation} isActive={onTheGoValidation}>Validate OnTheGo</HelpButton>},
+    ];
+
     let slideDown = "help-button-container open";
     let normalClass = "help-button-container";
 
     if(state.board.isInitialized)
         return (
             <div className={"show-help-container"}>
-            <button className="show-help-button" onClick={toggleShowHelp}>{showHelp? 'Hide Help':'Show Help'}</button>
-            <div className={showHelp? slideDown:normalClass}
-                style={showHelp? {visibility: 'visible', width: size } : {visibility: 'hidden', width: size}}>
+
                 <HelpButton onClick={clearBoard}>Clear</HelpButton>
-                <HelpButton onClick={solveSudoku}>Solve</HelpButton>
-                <HelpButton onClick={() => validateSudoku()}>Validate</HelpButton>
-                <HelpButton onClick={() => addHint()}>Hint</HelpButton>
-                <HelpButton onClick={togglePlaceAllOfActive} isActive={placeAllOfActive}>Hint all of #</HelpButton>
-                <HelpButton onClick={toggleOnTheGoValidation} isActive={onTheGoValidation}>Validate OnTheGo</HelpButton>
                 <HelpButton onClick={toggleShowConnectedCells} isActive={showConnectedCells}>Show connected cells</HelpButton>
-            </div>
+                <br/>
+                {show
+                    ? <>
+                        <button className="show-help-button" onClick={toggleShowHelp}>{showHelp? 'Hide Help':'Show Help'}</button>
+                            <div className={showHelp? slideDown:normalClass}
+                                style={showHelp? {visibility: 'visible', width: size } : {visibility: 'hidden', width: size}}>
+
+                                {helpButtons.map(helpButton =>
+                                    disabledHelps
+                                        ? disabledHelps.includes(helpButton.key)
+                                            ? null
+                                            : helpButton.button
+                                        : allowedHelps.includes(helpButton.key)
+                                            ? helpButton.button
+                                            : null
+                                )}
+
+                            </div>
+                    </>
+                    : null }
+
             </div>
         )
     else
