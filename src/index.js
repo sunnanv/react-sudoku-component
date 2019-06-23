@@ -15,11 +15,11 @@ import { StoreProvider } from "./hooks/StoreContext";
 const Sudoku = (props) => {
     const {
         useKeyboardListener,
-        showTimer,
-        showDifficultyButtons,
+        disableTimer,
+        disableDifficultyButtons,
         defaultDifficulty,
-        showNumberButtons,
-        showHelpButtons,
+        disableNumberButtons,
+        disableHelpButtons,
         size,
         allowedHelps,
         onSolved,
@@ -29,11 +29,11 @@ const Sudoku = (props) => {
     return (
         <StoreProvider style={{textAlign: 'center'}} onSolved={onSolved}>
             <KeyboardEventListener active={useKeyboardListener} >
-                <Timer show={showTimer} />
-                <DifficultyButtons show={showDifficultyButtons} defaultDifficulty={defaultDifficulty} size={size}/>
+                <Timer disable={disableTimer} />
+                <DifficultyButtons disable={disableDifficultyButtons} defaultDifficulty={defaultDifficulty} size={size}/>
                 <Board size={size} />
-                <NumberButtons show={showNumberButtons} size={size} />
-                <HelpButtons show={showHelpButtons} size={size} allowedHelps={allowedHelps} disabledHelps={disabledHelps} />
+                <NumberButtons disable={disableNumberButtons} size={size} />
+                <HelpButtons disable={disableHelpButtons} size={size} allowedHelps={allowedHelps} disabledHelps={disabledHelps} />
             </KeyboardEventListener>
         </StoreProvider>
     )
@@ -41,11 +41,10 @@ const Sudoku = (props) => {
 
 Sudoku.defaultProps = {
     useKeyboardListener: true,
-    showTimer: true,
-    showDifficultyButtons: true,
-    allowCandidates: true,
-    showNumberButtons: true,
-    showHelpButtons: true,
+    disableTimer: false,
+    disableDifficultyButtons: false,
+    disableNumberButtons: false,
+    disableHelpButtons: false,
     onSolved: () => {},
     size: '70vmin',
     allowedHelps: ['solve', 'validate','hint','hintAllOf','validateOnTheGo'],
@@ -54,15 +53,14 @@ Sudoku.defaultProps = {
 
 Sudoku.propTypes = {
     useKeyboardListener: PropTypes.bool,
-    showTimer: PropTypes.bool,
-    showDifficultyButtons: PropTypes.bool,
-    defaultDifficulty: PropTypes.oneOf(['easy', 'medium', 'hard']),
-    allowCandidates: PropTypes.bool,
-    showNumberButtons: PropTypes.bool,
-    showHelpButtons: PropTypes.bool,
     size: PropTypes.string,
-    allowedHelps: PropTypes.array,
+    defaultDifficulty: PropTypes.oneOf(['easy', 'medium', 'hard']),
     onSolved: PropTypes.func,
+    disableTimer: PropTypes.bool,
+    disableDifficultyButtons: PropTypes.bool,
+    disableNumberButtons: PropTypes.bool,
+    disableHelpButtons: PropTypes.bool,
+    allowedHelps: PropTypes.array,
     disabledHelps: PropTypes.array
 };
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 
-import { StoreContext } from "StoreContext"
+import { StoreContext } from "../../hooks/StoreContext"
 
 const DIRECTIONAL_KEYS = {
     LEFT: 37,

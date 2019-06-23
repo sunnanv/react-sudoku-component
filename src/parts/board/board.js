@@ -5,7 +5,7 @@ import * as SudokuUtils from '../../utils/sudoku_utils'
 
 export const Board = (props) => {
     
-    const { state, dispatch, actions } = useContext(StoreContext);
+    const { state, actions } = useContext(StoreContext);
     const {
         size
     } = props;
@@ -162,10 +162,4 @@ const GridTable = (props) => {
         </table>
     )
 };
-
-/**
- * TODO Add logic for "place all of a specific number"
- * TODO Add logic for validate a full sudoku
- */
-
 export default Board;

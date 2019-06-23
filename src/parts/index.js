@@ -1,5 +1,3 @@
-
-
 export {default as Board} from "./board/board";
 export {default as HelpButtons} from './help-buttons/help-buttons';
 export {default as DifficultyButtons} from './difficulty-buttons/difficulty-buttons';

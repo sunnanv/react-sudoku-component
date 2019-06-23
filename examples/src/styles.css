@@ -1,0 +1,71 @@
+.navbar {
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.navitem {
+    height: 50%;
+    border: 3px solid grey;
+    background: lightgrey;
+    margin: 2px 2px;
+}
+
+.active-navitem {
+    background: grey;
+}
+
+.codebox {
+    padding: 10px;
+    font-family: Consolas, serif;
+    background: #ecede8;
+    max-width: 500px;
+    width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title {
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.text-container {
+    max-width: 500px;
+    width: 100vw;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.info {
+    max-width: 500px;
+    width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.values-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.values {
+    margin: 0 10px;
+}
+
+.default-value {
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+
+.allowedValues {
+    text-align: center;
+}

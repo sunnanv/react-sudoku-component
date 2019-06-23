@@ -4,15 +4,13 @@ import './difficulty-buttons-styles.css';
 
 
 const DifficultyButtons = (props) => {
-    const { state, actions } = useContext(StoreContext);
-
     const {
-        show,
+        disable,
         defaultDifficulty,
         size
     } = props;
 
-    
+    const { state, actions } = useContext(StoreContext);
 
     const {
         difficulty,
@@ -27,7 +25,7 @@ const DifficultyButtons = (props) => {
         if(board.isEmpty() ) generateSudoku(defaultDifficulty);
     } 
 
-    if(!show) {
+    if(disable) {
         if(board.isEmpty() ) generateSudoku('easy');
         return <></>
     }

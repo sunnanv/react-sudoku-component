@@ -1,16 +1,18 @@
 import React, { useContext} from "react";
-import { StoreContext } from "StoreContext"
+import { StoreContext } from "../../hooks/StoreContext"
 import './number-buttons-styles.css'
 
 const NumberButtons = (props) => {
-    if(!props.show)
+    const {
+        disable,
+        size
+    } = props;
+
+    if(disable)
         return <></>;
 
     const { state, actions } = useContext(StoreContext);
 
-    const {
-        size
-    } = props;
 
     const {
         writeCandidates

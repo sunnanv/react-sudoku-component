@@ -108,18 +108,6 @@ export const useActions = (state, dispatch) => {
     };
 
     const validateSudoku = (board = state.board.board) => {
-        const {
-            onSolved
-        } = state.board;
-
-        const {
-            helpUsage
-        } = state.help;
-
-        const {
-            timeElapsed
-        } = state.timer;
-
 
         let invalidCells = SudokuUtils.validate_sudoku(board);
         helpDispatches.setInvalidCells(invalidCells);
@@ -127,7 +115,7 @@ export const useActions = (state, dispatch) => {
         if(invalidCells.length === 0 && board.isFull()) {
             timerDispatches.setTimerActive(false);
             boardDispatches.setIsSolved(true);
-            onSolved({time: timeElapsed, helps: helpUsage})
+            handleSolved()
         } else {
             addHelpUsage(HELP_TYPES.VALIDATION);
         }
@@ -168,13 +156,11 @@ export const useActions = (state, dispatch) => {
         const CELLS_IN_SUDOKU = 81;
         const { 
             solution, 
-            hintedCells,
-            helpUsage
+            hintedCells
         } = state.help;
 
         const { 
-            board,
-            onSolved
+            board
         } = state.board;
 
 
@@ -195,7 +181,7 @@ export const useActions = (state, dispatch) => {
         boardDispatches.setBoard(newBoard);
         timerDispatches.setTimerActive(false);
         helpDispatches.setHintedCells(newHintedCells);
-        onSolved(helpUsage)
+        handleSolved()
     };
 
     const placeAllOf = (number) => {
@@ -322,6 +308,22 @@ export const useActions = (state, dispatch) => {
 
         timerDispatches.setTimeElapsed(timeElapsed + 1);
     };
+
+    const handleSolved = () => {
+        const {
+            onSolved
+        } = state.board;
+
+        const {
+            helpUsage
+        } = state.help;
+
+        const {
+            timeElapsed
+        } = state.timer;
+
+        onSolved({time: timeElapsed, helps: helpUsage})
+    }
 
     return {
         generateSudoku,

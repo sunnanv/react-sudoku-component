@@ -7,8 +7,8 @@
     font-size: calc(100%/9 - 1);
     min-width: 250px;
     min-height: 250px;
-    max-width: 90vmin;
-    max-height: 90vmin;
+    max-width: 100vmin;
+    max-height: 100vmin;
 }
 
 .sudoku-cell {

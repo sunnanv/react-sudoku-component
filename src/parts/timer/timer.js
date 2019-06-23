@@ -1,10 +1,13 @@
 import React, { useContext, useEffect } from "react";
-import { StoreContext } from "../../hooks/StoreContext"
-import PropTypes from 'prop-types';
+import { StoreContext } from "../../hooks/StoreContext";
 import './timer-styles.css';
 
 const Timer = (props) => {
-    if(!props.show)
+    const {
+        disable
+    } = props;
+
+    if(disable)
         return <></>;
     const { state, actions } = useContext(StoreContext);
 
@@ -35,7 +38,7 @@ const Timer = (props) => {
         let hh = h < 10? `0${h}` : `${h}`;
         let mm = m < 10? `0${m}` : `${m}`;
         let ss = s < 10? `0${s}` : `${s}`;
-        
+
         return `${hh}:${mm}:${ss}`
     };
 
@@ -44,9 +47,4 @@ const Timer = (props) => {
     )
 };
 
-/*
-TimerView.propTypes = {
-    timeElapsed: PropTypes.number.isRequired
-}
-*/
 export default Timer;

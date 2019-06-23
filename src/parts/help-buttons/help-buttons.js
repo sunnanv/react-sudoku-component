@@ -3,14 +3,14 @@ import { StoreContext } from "../../hooks/StoreContext"
 import './help-buttons-styles.css'
 
 const HelpButtons = (props) => {
-    const { state, actions } = useContext(StoreContext);
-
     const {
         size,
-        show,
+        disable,
         allowedHelps,
         disabledHelps
     } = props;
+
+    const { state, actions } = useContext(StoreContext);
 
     const {
         showHelp,
@@ -48,7 +48,7 @@ const HelpButtons = (props) => {
                 <HelpButton onClick={clearBoard}>Clear</HelpButton>
                 <HelpButton onClick={toggleShowConnectedCells} isActive={showConnectedCells}>Show connected cells</HelpButton>
                 <br/>
-                {show
+                {!disable
                     ? <>
                         <button className="show-help-button" onClick={toggleShowHelp}>{showHelp? 'Hide Help':'Show Help'}</button>
                             <div className={showHelp? slideDown:normalClass}
