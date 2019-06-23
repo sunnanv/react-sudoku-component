@@ -8,4 +8,4 @@ npm install --save react-sudoku-component
 ```
 
 ## Documentation
-[react-sudoku-component documentation](https)
+[react-sudoku-component documentation](https://sunnanv.github.io/react-sudoku-component/)
