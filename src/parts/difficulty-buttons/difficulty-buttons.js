@@ -4,27 +4,41 @@ import './difficulty-buttons-styles.css';
 
 
 const DifficultyButtons = (props) => {
-    const { state, dispatch, actions } = useContext(StoreContext);
+    const {
+        disable,
+        defaultDifficulty,
+        size
+    } = props;
+
+    const { state, actions } = useContext(StoreContext);
 
     const {
-        difficulty
+        difficulty,
+        board
     } = state.board;
 
     const {
         generateSudoku
     } = actions;
-
     
+    if(defaultDifficulty) {
+        if(board.isEmpty() ) generateSudoku(defaultDifficulty);
+    } 
+
+    if(disable) {
+        if(board.isEmpty() ) generateSudoku('easy');
+        return <></>
+    }
     return (
         <React.Fragment>
-            <div className="button-container">
+            <div className="button-container" style={{width: size}}>
                 <DifficultyButton difficultyForButton={'easy'} onClick={generateSudoku} difficulty={difficulty} />
                 <DifficultyButton difficultyForButton={'medium'} onClick={generateSudoku} difficulty={difficulty} />
                 <DifficultyButton difficultyForButton={'hard'} onClick={generateSudoku} difficulty={difficulty} />
             </div>
         </React.Fragment>
     )
-}
+};
 
 const DifficultyButton = (props) => {
     const {

@@ -1,10 +1,18 @@
-import React, { useContext, useState, useEffect } from "react";
-import { StoreContext } from "StoreContext"
+import React, { useContext} from "react";
+import { StoreContext } from "../../hooks/StoreContext"
 import './number-buttons-styles.css'
-import PropTypes from 'prop-types'
 
 const NumberButtons = (props) => {
-    const { state, dispatch, actions } = useContext(StoreContext);
+    const {
+        disable,
+        size
+    } = props;
+
+    if(disable)
+        return <></>;
+
+    const { state, actions } = useContext(StoreContext);
+
 
     const {
         writeCandidates
@@ -41,10 +49,10 @@ const NumberButtons = (props) => {
 
     if(state.board.isInitialized)
         return (
-            <div className="number-container">
+            <div className="number-container" style={{width: size, height: `calc(${size}/11)`}}>
                 {buttons}
             </div>
-        )
+        );
     else
         return (
             <React.Fragment />

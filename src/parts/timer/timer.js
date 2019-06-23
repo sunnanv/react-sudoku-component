@@ -1,12 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
-import { StoreContext } from "../../hooks/StoreContext"
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect } from "react";
+import { StoreContext } from "../../hooks/StoreContext";
 import './timer-styles.css';
 
 const Timer = (props) => {
-    const { state, dispatch, actions } = useContext(StoreContext);
+    const {
+        disable
+    } = props;
 
-    let interv = -100
+    if(disable)
+        return <></>;
+    const { state, actions } = useContext(StoreContext);
+
+    let interv = -100;
     useEffect(() => {
         interv = setInterval(tickTimer, 1000);
 
@@ -33,7 +38,7 @@ const Timer = (props) => {
         let hh = h < 10? `0${h}` : `${h}`;
         let mm = m < 10? `0${m}` : `${m}`;
         let ss = s < 10? `0${s}` : `${s}`;
-        
+
         return `${hh}:${mm}:${ss}`
     };
 
@@ -42,9 +47,4 @@ const Timer = (props) => {
     )
 };
 
-/*
-TimerView.propTypes = {
-    timeElapsed: PropTypes.number.isRequired
-}
-*/
 export default Timer;

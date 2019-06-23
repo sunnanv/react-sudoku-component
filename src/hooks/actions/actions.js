@@ -7,8 +7,8 @@ import Sudoku from '../../models/sudoku';
 
 export const useActions = (state, dispatch) => {
     const boardDispatches = useBoardDispatches(dispatch);
-    const timerDispatches = useTimerDispatches(dispatch);
     const helpDispatches = useHelpDispatches(dispatch);
+    const timerDispatches = useTimerDispatches(dispatch);
 
     const generateSudoku = (difficulty) => {
         timerDispatches.resetTimerState();
@@ -40,10 +40,14 @@ export const useActions = (state, dispatch) => {
     };
 
     const clearBoard = () => {
-        let newBoard = state.board.board.copy();
-        newBoard.clear();
-        boardDispatches.setBoard(newBoard);
+        const {
+            board
+        } = state.board;;
 
+        let newBoard = board.copy();
+        newBoard.clear();
+        
+        boardDispatches.setBoard(newBoard);
     };
 
     const setCurrentCell = (currentCell) => {
@@ -51,24 +55,44 @@ export const useActions = (state, dispatch) => {
     };
 
     const handleNumberClick = (number, cell = state.board.currentCell) => {
-        if(state.help.placeAllOfActive) {
+        const {
+            isSolved,
+            board,
+            writeCandidates
+        } = state.board;
+
+        const {
+            placeAllOfActive
+        } = state.help;
+
+        if(isSolved)
+            return;
+        if(placeAllOfActive) {
             placeAllOf(number);
             togglePlaceAllOfActive();
-        } else if(!state.board.board.isImmutableCell(cell)) {
-            if(state.board.writeCandidates) {
+        } else if(!board.isImmutableCell(cell)) {
+            if(writeCandidates) {
                 toggleCandidate(number, cell);
             } else {
                 setNumber(number, cell);
             }
         }
-    }
+    };
 
     // Find usages to switch to onNumberClicked
     const setNumber = (number, cell) => {
-        let newBoard = state.board.board.copy();
+        const {
+            board
+        } = state.board;
+
+        const {
+            invalidCells
+        } = state.help;
+
+        let newBoard = board.copy();
         newBoard.set(cell, number);
 
-        let newInvalidCells = state.help.invalidCells.filter(invalidCell => invalidCell !== cell);
+        let newInvalidCells = invalidCells.filter(invalidCell => invalidCell !== cell);
 
         boardDispatches.setBoard(newBoard);
         helpDispatches.setInvalidCells(newInvalidCells);
@@ -84,18 +108,25 @@ export const useActions = (state, dispatch) => {
     };
 
     const validateSudoku = (board = state.board.board) => {
+
         let invalidCells = SudokuUtils.validate_sudoku(board);
         helpDispatches.setInvalidCells(invalidCells);
 
         if(invalidCells.length === 0 && board.isFull()) {
             timerDispatches.setTimerActive(false);
-        } else if(!state.help.onTheGoValidation) {
+            boardDispatches.setIsSolved(true);
+            handleSolved()
+        } else {
             addHelpUsage(HELP_TYPES.VALIDATION);
         }
     };
 
     const toggleCandidate = (number, cell) => {
-        let newCandidates = new Map(state.board.candidates);
+        const {
+            candidates
+        } = state.board;
+
+        let newCandidates = new Map(candidates);
         let cellCandidates = newCandidates.get(cell);
 
         if(cellCandidates) {
@@ -113,45 +144,66 @@ export const useActions = (state, dispatch) => {
     };
 
     const toggleWriteCandidates = () => {
-        let newWriteCandidates = !state.board.writeCandidates;
+        const {
+            writeCandidates
+        } = state.board;
+
+        let newWriteCandidates = !writeCandidates;
         boardDispatches.setWriteCandidates(newWriteCandidates);
     };
 
     const solveSudoku = () => {
         const CELLS_IN_SUDOKU = 81;
-        console.log(state);
-        const { solution, hintedCells } = state.help;
-        const { board } = state.board;
+        const { 
+            solution, 
+            hintedCells
+        } = state.help;
+
+        const { 
+            board
+        } = state.board;
 
 
         let newHintedCells = hintedCells.slice();
         let newBoard = board.copy();
+        let nbrOfHinted = 0;
 
         for(let cell = 0; cell<CELLS_IN_SUDOKU; ++cell) {
             if(!board.isImmutableCell(cell) && board.get(cell) !== solution.get(cell)) {
                 newBoard.addInitial(cell, solution.get(cell));
                 newHintedCells.push(cell);
+                nbrOfHinted++;
             }
         }
+
+        addHelpUsage(HELP_TYPES.HINT, nbrOfHinted);
 
         boardDispatches.setBoard(newBoard);
         timerDispatches.setTimerActive(false);
         helpDispatches.setHintedCells(newHintedCells);
+        handleSolved()
     };
 
     const placeAllOf = (number) => {
-        let solution = state.help.solution.board;
-        let oldBoard = state.board.board;
-        let newBoard = oldBoard.copy();
-        let newHintedCells = state.help.hintedCells.slice();
+        const {
+            board
+        } = state.board;
 
-        let alreadyFilled = oldBoard.immutable.map(immutableCell => {
+        const {
+            solution,
+            hintedCells
+        } = state.help;
+
+        let newBoard = board.copy();
+        let newHintedCells = hintedCells.slice();
+
+        let alreadyFilled = board.immutable.map(immutableCell => {
             if(immutableCell.number === number)
                 return immutableCell.cell;
         });
 
         let nbrOfHints = 0;
-        solution.forEach((numberInCell, cell) => {
+        solution.board.forEach((numberInCell, cell) => {
             if(numberInCell === number && !alreadyFilled.includes(cell)) {
                 newBoard.addInitial(cell, number);
                 newHintedCells.push(cell);
@@ -162,38 +214,72 @@ export const useActions = (state, dispatch) => {
         addHelpUsage(HELP_TYPES.HINT, nbrOfHints);
         boardDispatches.setBoard(newBoard);
         helpDispatches.setHintedCells(newHintedCells);
+        if(sudokuShouldBeValidated(newBoard))
+            validateSudoku(newBoard);
     };
 
     const addHint = (cell = state.board.currentCell) => {
-        let newBoard = state.board.board.copy();
-        let newHintedCells = state.help.hintedCells.slice();
-        let numberInCell = state.help.solution.get(cell);
-        newBoard.addInitial(cell, numberInCell);
-        newHintedCells.push(cell);
-        boardDispatches.setBoard(newBoard);
-        addHelpUsage(HELP_TYPES.HINT);
-        helpDispatches.setHintedCells(newHintedCells);
+        const {
+            board
+        } = state.board;
+
+        const {
+            hintedCells,
+            solution
+        } = state.help;
+
+        let newBoard = board.copy();
+        let newHintedCells = hintedCells.slice();
+        let numberInCell = solution.get(cell);
+
+        if(!newBoard.isImmutableCell(cell)) {
+
+            newBoard.addInitial(cell, numberInCell);
+            newHintedCells.push(cell);
+
+            boardDispatches.setBoard(newBoard);
+            addHelpUsage(HELP_TYPES.HINT);
+            helpDispatches.setHintedCells(newHintedCells);
+
+            if (sudokuShouldBeValidated(newBoard))
+                validateSudoku(newBoard);
+        }
+
     };
 
     const toggleShowHelp = () => {
-        console.log(state)
-        let newShowHelp = !state.help.showHelp;
+        const {
+            showHelp
+        } = state.help;
+
+        let newShowHelp = !showHelp;
         helpDispatches.setShowHelp(newShowHelp);
     };
 
     const toggleOnTheGoValidation = () => {
-        let newOnTheGoValidation = !state.help.onTheGoValidation;
+        const {
+            onTheGoValidation
+        } = state.help;
+
+        let newOnTheGoValidation = !onTheGoValidation;
         helpDispatches.setOnTheGoValidation(newOnTheGoValidation);
-        addHelpUsage(HELP_TYPES.ON_THE_GO_VALIDATION);
     };
 
     const toggleShowConnectedCells = () => {
-        let newShowConnectedCells = !state.help.showConnectedCells;
+        const {
+            showConnectedCells
+        } = state.help;
+
+        let newShowConnectedCells = !showConnectedCells;
         helpDispatches.setShowConnectedCells(newShowConnectedCells);
     };
 
     const togglePlaceAllOfActive = () => {
-        let newPlaceAllOfActive = !state.help.placeAllOfActive;
+        const {
+            placeAllOfActive
+        } = state.help;
+
+        let newPlaceAllOfActive = !placeAllOfActive;
         helpDispatches.setPlaceAllOfActive(newPlaceAllOfActive);
     };
 
@@ -205,14 +291,38 @@ export const useActions = (state, dispatch) => {
     };
 
     const addHelpUsage = (helpType, nbrOfHelps = 1) => {
-        let newHelpUsage = new Map(state.help.helpUsage);
+        const {
+            helpUsage
+        } = state.help;
+        let newHelpUsage = new Map(helpUsage);
+
         newHelpUsage.set(helpType, newHelpUsage.get(helpType)+nbrOfHelps);
 
         helpDispatches.setHelpUsage(newHelpUsage);
     };
 
     const tickTimer = () => {
-        timerDispatches.setTimeElapsed(state.timer.timeElapsed + 1);
+        const {
+            timeElapsed
+        } = state.timer;
+
+        timerDispatches.setTimeElapsed(timeElapsed + 1);
+    };
+
+    const handleSolved = () => {
+        const {
+            onSolved
+        } = state.board;
+
+        const {
+            helpUsage
+        } = state.help;
+
+        const {
+            timeElapsed
+        } = state.timer;
+
+        onSolved({time: timeElapsed, helps: helpUsage})
     }
 
     return {
@@ -232,4 +342,4 @@ export const useActions = (state, dispatch) => {
         togglePlaceAllOfActive,
         tickTimer
     }
-}
+};

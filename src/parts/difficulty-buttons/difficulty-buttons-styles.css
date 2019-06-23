@@ -1,7 +1,6 @@
 .button-container {
-    width: 45vw;
-    min-width: 500px;
-    max-width: 700px;
+    max-width: 90vw;
+    min-width: 250px;
     margin: 0 auto;
 }
 

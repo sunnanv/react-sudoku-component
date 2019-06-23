@@ -13,13 +13,13 @@ test("Create new sudoku", () => {
         {cell: 72, number: 6},
         {cell: 71, number: 5},
         {cell: 80, number: 2}
-    ]
+    ];
     let sudoku = new Sudoku(initials);
 
     for(let initial of initials) {
         expect(sudoku.get(initial.cell)).toBe(initial.number)
     }
-})
+});
 
 test("Place numbers on edges", () => {
     let sudoku = new Sudoku();
@@ -28,7 +28,7 @@ test("Place numbers on edges", () => {
 
     expect(sudoku.get(0)).toBe(1);
     expect(sudoku.get(80)).toBe(1);
-})
+});
 
 test("Place numbers outside", () => {
     let sudoku = new Sudoku();
@@ -37,7 +37,7 @@ test("Place numbers outside", () => {
     for(let i = 0; i<81; ++i) {
         expect(sudoku.get(i)).toBe(0);
     }
-})
+});
 
 test("Place invalid numbers", () => {
     let sudoku = new Sudoku();
@@ -48,4 +48,4 @@ test("Place invalid numbers", () => {
     for(let i = 0; i<81; ++i) {
         expect(sudoku.get(i)).toBe(0)
     }
-})
+});

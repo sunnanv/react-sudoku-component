@@ -51,6 +51,12 @@ const board_reducer = (state = boardInitialState, action) => {
                 candidates: action.payload.candidates
             };
 
+        case types.SET_IS_SOLVED:
+            return {
+                ...state,
+                isSolved: action.payload.isSolved
+            };
+
         default: return state
     }
 };

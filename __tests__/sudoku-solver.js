@@ -3,7 +3,7 @@ import Sudoku from '../src/models/sudoku'
 
 test("Solve empty sudoku", () => {
     let emptySudoku = new Sudoku();
-    let solved = SudokuUtils.solve(emptySudoku)
+    let solved = SudokuUtils.solve(emptySudoku);
 
     expect(solved).toBe(true);
     expect(emptySudoku.isFull()).toBe(true)
@@ -12,7 +12,7 @@ test("Solve empty sudoku", () => {
 test("Solve sudoku with 1 valid number",  () => {
     let sudoku = new Sudoku();
     sudoku.set(2, 5);
-    let solved =  SudokuUtils.solve(sudoku)
+    let solved =  SudokuUtils.solve(sudoku);
 
     expect(solved).toBe(true);
     expect(sudoku.isFull()).toBe(true);
@@ -27,9 +27,9 @@ test("Solve sudoku with 10 valid numbers",  () => {
         { cell: 49, number: 2 }];
     let sudoku = new Sudoku(initials);
 
-    let solved =  SudokuUtils.solve(sudoku)
+    let solved =  SudokuUtils.solve(sudoku);
 
-    expect(solved).toBe(true)
+    expect(solved).toBe(true);
     expect(sudoku.isFull()).toBe(true);
     for (let i of initials) {
         expect(sudoku.get(i.cell)).toBe(i.number);
@@ -63,7 +63,7 @@ test("Solve invalid sudoku with two values in same row",  () => {
         invalidSudoku = new Sudoku();
         invalidSudoku.set(first + i * 9, 1);
         invalidSudoku.set(second + i * 9, 1);
-        let solved =  SudokuUtils.solve(invalidSudoku)
+        let solved =  SudokuUtils.solve(invalidSudoku);
         expect(solved).toBe(false);
     }
 });
@@ -76,17 +76,17 @@ test("Solve invalid sudoku with two values in same column",  () => {
         invalidSudoku = new Sudoku();
         invalidSudoku.set(first + i, 1);
         invalidSudoku.set(second + i, 1);
-        let solved =  SudokuUtils.solve(invalidSudoku)
+        let solved =  SudokuUtils.solve(invalidSudoku);
         expect(solved).toBe(false);
     }
-})
+});
 
 test("Solve real boards",  () => {
     for (let board of testBoards) {
         let currBoard = new Sudoku();
-        currBoard.setBoard(board.board)
+        currBoard.setBoard(board.board);
         let solution = board.solution.slice();
-        let solved =  SudokuUtils.solve(currBoard)
+        let solved =  SudokuUtils.solve(currBoard);
         expect(currBoard.isFull()).toBe(true);
         expect(solved).toBe(true);
 
@@ -131,4 +131,4 @@ export const testBoards =[
                 7,9,1, 2,6,8, 5,3,4
             ]
     }
-]
+];
