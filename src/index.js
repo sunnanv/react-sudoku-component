@@ -24,13 +24,12 @@ const Sudoku = (props) => {
         showHelpButtons,
         size,
         allowedHelps,
-        onSolved,
+        onSolved
     } = props;
 
-
     return (
-        <StoreProvider style={{textAlign: 'center'}}>
-            <KeyboardEventListener active={useKeyboardListener}>
+        <StoreProvider style={{textAlign: 'center'}} onSolved={onSolved}>
+            <KeyboardEventListener active={useKeyboardListener} >
                 <Timer show={showTimer} />
                 <DifficultyButtons show={showDifficultyButtons} defaultDifficulty={defaultDifficulty} size={size}/>
                 <Board size={size} />
@@ -48,7 +47,7 @@ Sudoku.defaultProps = {
     allowCandidates: true,
     showNumberButtons: true,
     showHelpButtons: true,
-    onSolved: () => {},
+    onSolved: (test) => {console.log("TESTAR", test)},
     size: '70vmin'
 };
 

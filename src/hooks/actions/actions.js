@@ -108,13 +108,27 @@ export const useActions = (state, dispatch) => {
     };
 
     const validateSudoku = (board = state.board.board) => {
+        const {
+            onSolved
+        } = state.board;
+
+        const {
+            helpUsage
+        } = state.help;
+
+        const {
+            timeElapsed
+        } = state.timer;
+
+
         let invalidCells = SudokuUtils.validate_sudoku(board);
         helpDispatches.setInvalidCells(invalidCells);
 
         if(invalidCells.length === 0 && board.isFull()) {
             timerDispatches.setTimerActive(false);
             boardDispatches.setIsSolved(true);
-        } else if(!state.help.onTheGoValidation) {
+            onSolved({time: timeElapsed, helps: helpUsage})
+        } else {
             addHelpUsage(HELP_TYPES.VALIDATION);
         }
     };
@@ -154,27 +168,34 @@ export const useActions = (state, dispatch) => {
         const CELLS_IN_SUDOKU = 81;
         const { 
             solution, 
-            hintedCells 
+            hintedCells,
+            helpUsage
         } = state.help;
 
         const { 
-            board 
+            board,
+            onSolved
         } = state.board;
 
 
         let newHintedCells = hintedCells.slice();
         let newBoard = board.copy();
+        let nbrOfHinted = 0;
 
         for(let cell = 0; cell<CELLS_IN_SUDOKU; ++cell) {
             if(!board.isImmutableCell(cell) && board.get(cell) !== solution.get(cell)) {
                 newBoard.addInitial(cell, solution.get(cell));
                 newHintedCells.push(cell);
+                nbrOfHinted++;
             }
         }
+
+        addHelpUsage(HELP_TYPES.HINT, nbrOfHinted);
 
         boardDispatches.setBoard(newBoard);
         timerDispatches.setTimerActive(false);
         helpDispatches.setHintedCells(newHintedCells);
+        onSolved(helpUsage)
     };
 
     const placeAllOf = (number) => {
@@ -225,15 +246,18 @@ export const useActions = (state, dispatch) => {
         let newHintedCells = hintedCells.slice();
         let numberInCell = solution.get(cell);
 
-        newBoard.addInitial(cell, numberInCell);
-        newHintedCells.push(cell);
+        if(!newBoard.isImmutableCell(cell)) {
 
-        boardDispatches.setBoard(newBoard);
-        addHelpUsage(HELP_TYPES.HINT);
-        helpDispatches.setHintedCells(newHintedCells);
+            newBoard.addInitial(cell, numberInCell);
+            newHintedCells.push(cell);
 
-        if(sudokuShouldBeValidated(newBoard))
-            validateSudoku(newBoard);
+            boardDispatches.setBoard(newBoard);
+            addHelpUsage(HELP_TYPES.HINT);
+            helpDispatches.setHintedCells(newHintedCells);
+
+            if (sudokuShouldBeValidated(newBoard))
+                validateSudoku(newBoard);
+        }
 
     };
 
@@ -241,7 +265,6 @@ export const useActions = (state, dispatch) => {
         const {
             showHelp
         } = state.help;
-
 
         let newShowHelp = !showHelp;
         helpDispatches.setShowHelp(newShowHelp);
@@ -254,13 +277,12 @@ export const useActions = (state, dispatch) => {
 
         let newOnTheGoValidation = !onTheGoValidation;
         helpDispatches.setOnTheGoValidation(newOnTheGoValidation);
-        addHelpUsage(HELP_TYPES.ON_THE_GO_VALIDATION);
     };
 
     const toggleShowConnectedCells = () => {
         const {
             showConnectedCells
-        } = state.help
+        } = state.help;
 
         let newShowConnectedCells = !showConnectedCells;
         helpDispatches.setShowConnectedCells(newShowConnectedCells);
@@ -269,7 +291,7 @@ export const useActions = (state, dispatch) => {
     const togglePlaceAllOfActive = () => {
         const {
             placeAllOfActive
-        } = help.placeAllOfActive;
+        } = state.help;
 
         let newPlaceAllOfActive = !placeAllOfActive;
         helpDispatches.setPlaceAllOfActive(newPlaceAllOfActive);
@@ -285,7 +307,7 @@ export const useActions = (state, dispatch) => {
     const addHelpUsage = (helpType, nbrOfHelps = 1) => {
         const {
             helpUsage
-        } = state.help
+        } = state.help;
         let newHelpUsage = new Map(helpUsage);
 
         newHelpUsage.set(helpType, newHelpUsage.get(helpType)+nbrOfHelps);
