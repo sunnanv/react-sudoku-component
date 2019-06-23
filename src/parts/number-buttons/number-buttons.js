@@ -1,13 +1,12 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext} from "react";
 import { StoreContext } from "StoreContext"
 import './number-buttons-styles.css'
-import PropTypes from 'prop-types'
 
 const NumberButtons = (props) => {
     if(!props.show)
-        return <></>
+        return <></>;
 
-    const { state, dispatch, actions } = useContext(StoreContext);
+    const { state, actions } = useContext(StoreContext);
 
     const {
         size
@@ -51,7 +50,7 @@ const NumberButtons = (props) => {
             <div className="number-container" style={{width: size, height: `calc(${size}/11)`}}>
                 {buttons}
             </div>
-        )
+        );
     else
         return (
             <React.Fragment />

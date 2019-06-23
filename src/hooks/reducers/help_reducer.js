@@ -59,6 +59,6 @@ const help_reducer = (state = helpInitialState, action) => {
         default:
             return state
     }
-}
+};
 
 export default help_reducer;

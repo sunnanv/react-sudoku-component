@@ -39,13 +39,10 @@
 }
 
 .candidates-grid td {
-    border: 0 0 0 0;
     width: calc(100%/3);
 }
 
 .candidates-grid tr {
-    border: 0 0 0 0;
-    
     height: calc(100%/3);
 }
 

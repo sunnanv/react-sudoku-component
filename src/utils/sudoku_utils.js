@@ -72,32 +72,32 @@ export const getConnectedCells = (cell) => {
         if (actRow !== cell && !connectedCells.includes(actRow))
             connectedCells.push(actRow);
         if (actCol !== cell && !connectedCells.includes(actCol))
-            connectedCells.push(actCol)
+            connectedCells.push(actCol);
         if (actCellGroup !== cell && !connectedCells.includes(actCellGroup))
-            connectedCells.push(actCellGroup)
+            connectedCells.push(actCellGroup);
         if ((actCellGroup + 1) % 3 === 0) {
             cellGroupStart += 9
         }
     }
     return connectedCells
-}
+};
 
 /**
  * Solves the sudoku that is passed. The solution will be written on the passed board.
  * @param {Sudoku} board the board to solve
- * @returns {boolean}true if the sudoku was solvable, else false
+ * @returns {boolean} true if the sudoku was solvable, else false
  */
 export const solve = (board) => {
     if(validate_sudoku(board).length === 0)
         return recSolve(0, board, board);
     else return false;
-}
+};
 
 /**
  * Recursive funtion that solved a sudoku by brute force
  * @param {number} cell number of the current cell (0-81)
- * @param {Board} board the board to solve
- * @param {Board} initialBoard the board as it looked in the beginning
+ * @param {Sudoku} board the board to solve
+ * @param {Sudoku} initialBoard the board as it looked in the beginning
  *
  * @returns true if the sudoku was solved, else false
  */
@@ -118,7 +118,7 @@ export const recSolve = (cell, board, initialBoard) => {
         }
     }
     return false;
-}
+};
 
 /**
  * Generates a random sudoku
@@ -148,7 +148,7 @@ export const generateSudoku = (difficulty) => {
     let sudoku = createSudokuFromSolvedSudoku(solvedSudoku, difficulty);
 
     return {sudoku: sudoku, solution: solvedSudoku}
-}
+};
 
 /**
  * Generates a row for a sudoku.
@@ -181,7 +181,7 @@ export const generateSudokuRow = (matchingRows = []) => {
         row.push(cellNbr)
     }
     return row;
-}
+};
 
 export const difficulties = {
     'easy': 37,
@@ -211,4 +211,4 @@ export const createSudokuFromSolvedSudoku = (solvedSudoku, difficulty) => {
         sudoku.board[cell] = solvedSudoku.get(cell)
     }
     return sudoku;
-}
+};

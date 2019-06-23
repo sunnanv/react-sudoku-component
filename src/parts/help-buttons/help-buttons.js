@@ -1,10 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext} from "react";
 import { StoreContext } from "../../hooks/StoreContext"
 import './help-buttons-styles.css'
-import PropTypes from 'prop-types'
 
 const HelpButtons = (props) => {
-    const { state, dispatch, actions } = useContext(StoreContext);
+    const { state, actions } = useContext(StoreContext);
 
     const {
         size,
@@ -70,7 +69,7 @@ const HelpButtons = (props) => {
                     : null }
 
             </div>
-        )
+        );
     else
         return (
             <React.Fragment />
@@ -92,6 +91,6 @@ const HelpButton = (props) => {
                 {children}
         </button>
     )
-}
+};
 
 export default HelpButtons;

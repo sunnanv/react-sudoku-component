@@ -11,7 +11,7 @@ test("Get connected cells to 0", () => {
         expect(connectedTo0).toContain(i);
     }
     
-})
+});
 
 test("Get connected cells to 40", () => {
     let connectedTo40 = SudokuUtils.getConnectedCells(40);
@@ -22,7 +22,7 @@ test("Get connected cells to 40", () => {
     for(let i of expectedConnectedTo40) {
         expect(connectedTo40).toContain(i)
     }
-})
+});
 
 test("Empty sudoku valid", () => {
     let emptySudoku = new Sudoku();
@@ -59,7 +59,7 @@ describe('Tests for invalid sudoku', () =>
         let invalidSudoku;
 
         for (let i = 2; i <= 74; i += 9) {
-            invalidSudoku = new Sudoku()
+            invalidSudoku = new Sudoku();
             invalidSudoku.set(i, 1);
             invalidSudoku.set(i+5, 1);
             let invalidCells = SudokuUtils.validate_sudoku(invalidSudoku);
@@ -90,7 +90,7 @@ describe('Tests for invalid sudoku', () =>
             secondCell += 18;
         }
     });
-})
+});
 describe('Ahookstest for valid sudoku', () => {
     test("Valid row = valid sudoku", () => {
         let validSudoku = new Sudoku();

@@ -8,6 +8,6 @@ const initialState = {
     board: boardInitialState,
     timer: timerInitialState,
     help: helpInitialState
-}
+};
 
 export default initialState;

@@ -55,7 +55,7 @@ const board_reducer = (state = boardInitialState, action) => {
             return {
                 ...state,
                 isSolved: action.payload.isSolved
-            }
+            };
 
         default: return state
     }

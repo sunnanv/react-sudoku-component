@@ -46,7 +46,7 @@ Sudoku.defaultProps = {
     allowCandidates: true,
     showNumberButtons: true,
     showHelpButtons: true,
-    onSolved: (test) => {console.log("TESTAR", test)},
+    onSolved: () => {},
     size: '70vmin',
     allowedHelps: ['solve', 'validate','hint','hintAllOf','validateOnTheGo'],
 };
@@ -64,6 +64,6 @@ Sudoku.propTypes = {
     allowedHelps: PropTypes.array,
     onSolved: PropTypes.func,
     disabledHelps: PropTypes.array
-}
+};
 
 export default Sudoku

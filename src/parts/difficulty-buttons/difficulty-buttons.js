@@ -4,7 +4,7 @@ import './difficulty-buttons-styles.css';
 
 
 const DifficultyButtons = (props) => {
-    const { state, dispatch, actions } = useContext(StoreContext);
+    const { state, actions } = useContext(StoreContext);
 
     const {
         show,
@@ -40,7 +40,7 @@ const DifficultyButtons = (props) => {
             </div>
         </React.Fragment>
     )
-}
+};
 
 const DifficultyButton = (props) => {
     const {

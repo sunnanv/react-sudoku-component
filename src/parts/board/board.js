@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext} from "react";
 import { StoreContext } from "../../hooks/StoreContext"
 import './board-styles.css';
-import PropTypes from 'prop-types';
 import * as SudokuUtils from '../../utils/sudoku_utils'
 
 export const Board = (props) => {
@@ -22,12 +21,12 @@ export const Board = (props) => {
         hintedCells
     } = state.help;
     
-    const solveAnimate = []
+    const solveAnimate = [];
 
-    const generateASudoku = () => actions.generateSudoku('easy');
+
 
     const onCellClicked = (cell) => actions.setCurrentCell(cell);
-    const connectedCells = state.help.showConnectedCells? SudokuUtils.getConnectedCells(state.board.currentCell):[]
+    const connectedCells = state.help.showConnectedCells? SudokuUtils.getConnectedCells(state.board.currentCell):[];
     
     const NBR_OF_ROWS = 9;
     const EMPTY_CELL = 0;
@@ -44,7 +43,7 @@ export const Board = (props) => {
         else if(solveAnimate.length === 0 && connectedCells.includes(i))
             return connectedCellStyle;
         return null;
-    }
+    };
 
     const isCandidates = (cell) => (board.get(cell) === EMPTY_CELL && candidates.get(cell));
     const isHinted = (cell) => (hintedCells.includes(cell));
@@ -55,18 +54,18 @@ export const Board = (props) => {
     const getDataInCell = (cell) => {
         let number = board.get(cell);
         if(isHinted(cell))
-            return <b style={{color: 'blue'}}>{number}</b>
+            return <b style={{color: 'blue'}}>{number}</b>;
         else if (isImmutable(cell))
-            return <b>{number}</b>
+            return <b>{number}</b>;
         else if (isInvalid(cell))
-            return <b style={{color: 'red'}}>{number}</b>
+            return <b style={{color: 'red'}}>{number}</b>;
         else if (isNumber(cell))
-            return number
+            return number;
         else if (isCandidates(cell))
-            return <CandidatesGrid cellCandidates={candidates.get(cell)}/>
+            return <CandidatesGrid cellCandidates={candidates.get(cell)}/>;
         else
             return ''
-    }
+    };
 
     if(state.board.isInitialized)
         return (
@@ -82,7 +81,7 @@ export const Board = (props) => {
                     dataParser={getDataInCell}
                 />
             </React.Fragment>
-    )
+    );
     else
         return (
             <React.Fragment/>
@@ -92,11 +91,11 @@ export const Board = (props) => {
 const CandidatesGrid = (props) => {
     const {
         cellCandidates
-    } = props
+    } = props;
 
     const dataParser = (cell) => {
         return cellCandidates.includes(cell+1)? cell+1 : ' ';
-    }
+    };
 
     return (
         <GridTable 
@@ -105,7 +104,7 @@ const CandidatesGrid = (props) => {
             dataParser={dataParser}
         />
     )
-}
+};
 
 const GridTable = (props) => {
 
@@ -142,7 +141,7 @@ const GridTable = (props) => {
                 {cells}
             </tr>
         )
-    }
+    };
 
     const renderRows = () => {
         let rows = [];
@@ -155,14 +154,14 @@ const GridTable = (props) => {
         return (
             <tbody>{rows}</tbody>
         )
-    }
+    };
 
     return (
         <table className={tableClass} style={{height: size, width: size}}>
             {renderRows()}
         </table>
     )
-}
+};
 
 /**
  * TODO Add logic for "place all of a specific number"

@@ -60,7 +60,7 @@ export const useBoardDispatches = (dispatch) => {
         payload: {
             isSolved
         }
-    })
+    });
 
     return {
         resetState,

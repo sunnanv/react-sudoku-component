@@ -1,14 +1,14 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { StoreContext } from "../../hooks/StoreContext"
 import PropTypes from 'prop-types';
 import './timer-styles.css';
 
 const Timer = (props) => {
     if(!props.show)
-        return <></>
-    const { state, dispatch, actions } = useContext(StoreContext);
+        return <></>;
+    const { state, actions } = useContext(StoreContext);
 
-    let interv = -100
+    let interv = -100;
     useEffect(() => {
         interv = setInterval(tickTimer, 1000);
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { StoreContext } from "StoreContext"
 
@@ -42,7 +42,7 @@ const FUNCTIONAL_KEYS = {
 };
 
 const KeyboardEventListener = (props) => {
-    const { state, dispatch, actions } = useContext(StoreContext);
+    const { state, actions } = useContext(StoreContext);
 
     if(props.active) {
         useEffect(() => {
@@ -70,7 +70,7 @@ const KeyboardEventListener = (props) => {
         }
     };
 
-    const keyExists = (keyCode) => keyIsNumeric(keyCode) || keyIsDirectional(keyCode) || keyIsDeleting(keyCode) || keyIsFunctional(keyCode)
+    const keyExists = (keyCode) => keyIsNumeric(keyCode) || keyIsDirectional(keyCode) || keyIsDeleting(keyCode) || keyIsFunctional(keyCode);
 
     const keyIsNumeric = (keyCode) => Object.values(NUMERIC_KEYS).includes(keyCode);
 
@@ -115,7 +115,7 @@ const KeyboardEventListener = (props) => {
             {props.children}
         </React.Fragment>
     )
-}
+};
 
 
 export default KeyboardEventListener;

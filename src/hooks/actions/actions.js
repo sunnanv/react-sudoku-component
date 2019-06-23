@@ -42,7 +42,7 @@ export const useActions = (state, dispatch) => {
     const clearBoard = () => {
         const {
             board
-        } = state.board
+        } = state.board;;
 
         let newBoard = board.copy();
         newBoard.clear();
@@ -77,7 +77,7 @@ export const useActions = (state, dispatch) => {
                 setNumber(number, cell);
             }
         }
-    }
+    };
 
     // Find usages to switch to onNumberClicked
     const setNumber = (number, cell) => {
@@ -158,7 +158,7 @@ export const useActions = (state, dispatch) => {
     const toggleWriteCandidates = () => {
         const {
             writeCandidates
-        } = state.board
+        } = state.board;
 
         let newWriteCandidates = !writeCandidates;
         boardDispatches.setWriteCandidates(newWriteCandidates);
@@ -201,7 +201,7 @@ export const useActions = (state, dispatch) => {
     const placeAllOf = (number) => {
         const {
             board
-        } = state.board
+        } = state.board;
 
         const {
             solution,
@@ -318,10 +318,10 @@ export const useActions = (state, dispatch) => {
     const tickTimer = () => {
         const {
             timeElapsed
-        } = state.timer
+        } = state.timer;
 
         timerDispatches.setTimeElapsed(timeElapsed + 1);
-    }
+    };
 
     return {
         generateSudoku,
@@ -340,4 +340,4 @@ export const useActions = (state, dispatch) => {
         togglePlaceAllOfActive,
         tickTimer
     }
-}
+};
